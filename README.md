@@ -1,2 +1,2 @@
-# gcoys-website
+# gcoysorg
 Gcoys.org Repository
