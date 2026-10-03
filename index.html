@@ -324,7 +324,7 @@
 
   /* ─── MISSION ─── */
   .mission {
-    background: var(--off-white);
+    background: var(--green-dark);
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 6rem;
@@ -339,8 +339,12 @@
     width: 300px;
     height: 300px;
     max-width: 100%;
-    opacity: 0.9;
   }
+
+  .mission h2.section-title { color: #fff; }
+  .mission .section-lead { color: rgba(255,255,255,0.8); }
+  .mission .section-tag { color: var(--gold); }
+  .mission .section-tag::before { background: var(--gold); }
 
   /* ─── PROGRAMS ─── */
   .programs { background: white; }
