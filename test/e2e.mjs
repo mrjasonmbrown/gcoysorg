@@ -13,7 +13,9 @@ const mock = http.createServer((req, res) => {
     res.setHeader('content-type', 'application/json');
     if (req.method === 'POST' && req.url === '/v2/online-checkout/payment-links') {
       if (squareDown) { res.statusCode = 500; return res.end('{}'); }
-      const j = JSON.parse(b); linkCount++;
+      const j = JSON.parse(b);
+      if (j.pre_populated_data && /@badmail\.test$/.test(j.pre_populated_data.buyer_email)) { res.statusCode = 400; return res.end(JSON.stringify({ errors: [{ code: 'INVALID_EMAIL_ADDRESS' }] })); }
+      linkCount++;
       return res.end(JSON.stringify({ payment_link: { id: 'PL' + linkCount, order_id: 'ORD-' + j.order.reference_id, url: 'https://sandbox.square.link/u/' + linkCount } }));
     }
     if (req.method === 'GET' && req.url.startsWith('/v2/payments/') && mockPayment) return res.end(JSON.stringify({ payment: mockPayment }));
@@ -72,6 +74,9 @@ try {
   r = await post(valid({ first_name: 'Down', email: 'down@example.com' })); j = await r.json();
   ok(r.status === 201 && !j.checkout_url && j.registration_id, 'Square outage: registration still saved, no checkout');
   squareDown = false;
+
+  r = await post(valid({ first_name: 'Mail', email: 'family@badmail.test' })); j = await r.json();
+  ok(r.status === 201 && j.checkout_url, 'Square rejects email: retry without it still gives checkout');
 
   console.log('webhook');
   mockPayment = { id: 'PAY1', status: 'COMPLETED', order_id: 'ORD-' + id1, location_id: 'LTEST', amount_money: { amount: 12500, currency: 'USD' } };
