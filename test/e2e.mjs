@@ -36,6 +36,8 @@ const hook = (ev, sig) => { const raw = JSON.stringify(ev); return fetch(BASE + 
 const admin = (t, q = '') => fetch(BASE + '/api/admin/registrations' + q, { headers: t ? { authorization: 'Bearer ' + t } : {} });
 
 execSync('npx wrangler d1 execute gcoys-registrations --local --file=schema.sql', { stdio: 'ignore' });
+// Start every run from an empty LOCAL database (leftovers would trip the rate limiter).
+execSync(`npx wrangler d1 execute gcoys-registrations --local --command="DELETE FROM rate_events; DELETE FROM registrations; DELETE FROM webhook_events;"`, { stdio: 'ignore' });
 const dev = spawn('npx', ['wrangler', 'dev', '--port', String(PORT), '--ip', '127.0.0.1'], { stdio: 'ignore' });
 const stop = () => { dev.kill(); mock.close(); };
 process.on('exit', stop);
