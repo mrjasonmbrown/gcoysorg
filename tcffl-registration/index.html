@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TCFFL Player Registration | GCoYS Girls Flag Football</title>
+<meta name="description" content="Register your player for TCFFL Girls Flag Football, Fall 2026, from the Georgia Council of Youth Sports.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--green:#005b35;--green-dark:#003d23;--green-light:#1a7a4a;--gold:#c8a400;--bg:#f0f4f1;--text:#17251f;--muted:#4a6058;--border:#9db8a9;--hdr:#1a2e22;--err:#b3261e}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Barlow',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:16px;line-height:1.5}
+  a{color:var(--green)}
+  .skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:#fff;padding:8px;z-index:10}
+
+  .page-header{background:#fff;border-bottom:4px solid var(--green);padding:1.2rem 1.5rem .8rem}
+  .hdr-inner{max-width:880px;margin:0 auto;display:flex;align-items:center;gap:1.2rem}
+  .hdr-logo{width:84px;height:84px;object-fit:contain;flex-shrink:0}
+  .hdr-titles h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(1.7rem,5vw,2.8rem);font-weight:900;color:var(--green);line-height:1;text-transform:uppercase}
+  .hdr-sub{font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-top:.3rem;font-size:.95rem}
+  .hdr-back{max-width:880px;margin:.6rem auto 0;font-size:.9rem}
+
+  main{max-width:880px;margin:0 auto;padding:1.2rem 1.2rem 3rem}
+  .info-bar{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.4rem 1.5rem;margin-bottom:1rem;color:var(--muted);font-size:.95rem}
+  .info-bar strong{color:var(--green)}
+
+  .notice{border-radius:8px;padding:.85rem 1.1rem;margin-bottom:1rem;font-size:.95rem}
+  .notice.warn{background:#fff6d6;border:1.5px solid #e0b800;color:#5a4800}
+  .notice.test{background:#e8f1ff;border:1.5px solid #6c9be8;color:#16315e}
+  .notice.err{background:#fdf0ef;border:1.5px solid var(--err);color:#6d1a15}
+  .notice.ok{background:#e8f6ee;border:1.5px solid #2e8b57;color:#143d27}
+  .notice h2{font-size:1.15rem;margin-bottom:.3rem}
+  .ref{font-family:ui-monospace,Menlo,monospace;font-size:1.25rem;font-weight:700;letter-spacing:.04em;background:#fff;border:1px dashed var(--green);border-radius:6px;padding:.25rem .6rem;display:inline-block;margin:.3rem 0}
+  .pay-btn{display:inline-block;margin-top:.6rem;background:var(--green);color:#fff;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:1.15rem;padding:.85rem 2rem;border-radius:6px}
+  .pay-btn:hover{background:var(--green-light)}
+
+  fieldset.fsec{background:#fff;border:1px solid var(--border);border-radius:8px;margin-bottom:1.1rem;overflow:hidden;min-width:0}
+  legend.shdr{float:left;width:100%;background:var(--hdr);color:#fff;padding:.65rem 1.1rem;display:flex;align-items:center;gap:.7rem;font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+  legend.shdr .snum{background:var(--green);width:26px;height:26px;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-weight:900}
+  .sbody{clear:both;padding:1.1rem 1.2rem}
+  .grid{display:grid;gap:1rem}
+  .g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+  .span2{grid-column:span 2}.span4{grid-column:1/-1}
+
+  .f{display:flex;flex-direction:column;gap:.25rem}
+  .f label,.f .lbl{font-size:.85rem;font-weight:600;color:var(--muted)}
+  .req{color:var(--err)}
+  input[type=text],input[type=email],input[type=tel],input[type=date],select,textarea{width:100%;padding:.65rem .8rem;border:1.5px solid var(--border);border-radius:6px;font:inherit;color:var(--text);background:#fff;min-height:44px}
+  textarea{min-height:76px;resize:vertical}
+  input:focus,select:focus,textarea:focus,button:focus-visible,summary:focus-visible,.pay-btn:focus-visible{outline:3px solid #7fc8a0;outline-offset:1px;border-color:var(--green)}
+  .invalid{border-color:var(--err)!important}
+  .ferr{color:var(--err);font-size:.8rem;min-height:1rem}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+  details.policy{border:1px solid var(--border);border-radius:6px;margin-bottom:.8rem;background:#fafcfb}
+  details.policy summary{cursor:pointer;padding:.7rem 1rem;font-weight:600;color:var(--green-dark)}
+  .policy-body{padding:.2rem 1rem 1rem;font-size:.92rem;max-height:260px;overflow:auto}
+  .placeholder{background:#fff6d6;border:1px dashed #b8960b;border-radius:6px;padding:.6rem .8rem;color:#5a4800;font-weight:600}
+  .agree{display:flex;gap:.7rem;align-items:flex-start;border:1.5px solid var(--border);border-radius:6px;padding:.8rem 1rem;margin-bottom:.7rem;cursor:pointer}
+  .agree input{width:20px;height:20px;margin-top:2px;flex-shrink:0;accent-color:var(--green)}
+  .agree.invalid{border-color:var(--err)}
+  .agree .t{font-size:.95rem}.agree .t strong{display:block;color:var(--green-dark)}
+  .opt{font-weight:400;color:var(--muted);font-size:.85rem}
+
+  .fee{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+  .fee-box{background:var(--green);color:#fff;border-radius:8px;padding:.6rem 1.3rem;text-align:center}
+  .fee-box small{display:block;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;opacity:.8}
+  .fee-box b{font-family:'Barlow Condensed',sans-serif;font-size:1.9rem;line-height:1}
+
+  .submit{margin-top:1.3rem;text-align:center}
+  .submit button{background:var(--green);color:#fff;border:0;border-radius:6px;padding:1rem 3rem;font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;min-height:52px}
+  .submit button:hover:not(:disabled){background:var(--green-light)}
+  .submit button:disabled{opacity:.55;cursor:not-allowed}
+  .submit p{font-size:.85rem;color:var(--muted);margin-top:.5rem}
+  footer{background:var(--hdr);color:rgba(255,255,255,.7);text-align:center;padding:1rem;font-size:.85rem}
+  footer a{color:#fff}
+
+  @media(max-width:700px){.g2,.g3,.g4{grid-template-columns:1fr}.span2{grid-column:auto}.hdr-logo{width:64px;height:64px}.sbody{padding:1rem}}
+  @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#form">Skip to the form</a>
+
+<header class="page-header">
+  <div class="hdr-inner">
+    <img class="hdr-logo" src="/img/gcys-logo.png" alt="Georgia Council of Youth Sports logo" width="84" height="84">
+    <div class="hdr-titles">
+      <h1>TCFFL Player Registration</h1>
+      <div class="hdr-sub">Girls Flag Football &nbsp;|&nbsp; Fall 2026</div>
+    </div>
+  </div>
+  <div class="hdr-back"><a href="/">&larr; Back to gcoys.org</a></div>
+</header>
+
+<main>
+  <div class="info-bar">
+    <span>Registration fee: <strong>$125</strong></span>
+    <span>Questions: <a href="mailto:info@gcoys.org">info@gcoys.org</a> &middot; <a href="tel:4044836378">404-483-6378</a></span>
+  </div>
+
+  <div id="banner" role="status" aria-live="polite"></div>
+  <div id="result" role="status" aria-live="polite" tabindex="-1"></div>
+
+  <form id="form" novalidate autocomplete="on">
+    <div class="hp" aria-hidden="true"><label>Leave this empty <input type="text" name="website" id="website" tabindex="-1" autocomplete="off"></label></div>
+
+    <fieldset class="fsec">
+      <legend class="shdr"><span class="snum">1</span> Player information</legend>
+      <div class="sbody"><div class="grid g4">
+        <div class="f span2"><label for="first_name">First name <span class="req">*</span></label><input type="text" id="first_name" name="first_name" maxlength="60" autocomplete="off" required><span class="ferr" id="e-first_name"></span></div>
+        <div class="f span2"><label for="last_name">Last name <span class="req">*</span></label><input type="text" id="last_name" name="last_name" maxlength="60" autocomplete="off" required><span class="ferr" id="e-last_name"></span></div>
+        <div class="f"><label for="dob">Date of birth <span class="req">*</span></label><input type="date" id="dob" name="dob" autocomplete="off" required><span class="ferr" id="e-dob"></span></div>
+        <div class="f"><label for="division">Age division <span class="req">*</span></label>
+          <select id="division" name="division" required><option value="">Select&hellip;</option>
+            <option>6U</option><option>7U</option><option>8U</option><option>9U</option><option>10U</option><option>11U</option><option>12U</option><option>13U</option><option>14U</option></select><span class="ferr" id="e-division"></span></div>
+        <div class="f"><label for="grade">Grade <span class="req">*</span></label>
+          <select id="grade" name="grade" required><option value="">Select&hellip;</option>
+            <option>Kindergarten</option><option>1st Grade</option><option>2nd Grade</option><option>3rd Grade</option><option>4th Grade</option><option>5th Grade</option><option>6th Grade</option><option>7th Grade</option><option>8th Grade</option><option>9th Grade</option></select><span class="ferr" id="e-grade"></span></div>
+        <div class="f"><label for="jersey_size">Jersey size <span class="req">*</span></label>
+          <select id="jersey_size" name="jersey_size" required><option value="">Select&hellip;</option>
+            <option value="YS">Youth Small (YS)</option><option value="YM">Youth Medium (YM)</option><option value="YL">Youth Large (YL)</option><option value="AS">Adult Small (AS)</option><option value="AM">Adult Medium (AM)</option><option value="AL">Adult Large (AL)</option><option value="AXL">Adult XL (AXL)</option></select><span class="ferr" id="e-jersey_size"></span></div>
+        <div class="f span4"><label for="school">School <span class="req">*</span></label><input type="text" id="school" name="school" maxlength="120" required><span class="ferr" id="e-school"></span></div>
+      </div></div>
+    </fieldset>
+
+    <fieldset class="fsec">
+      <legend class="shdr"><span class="snum">2</span> Parent / guardian</legend>
+      <div class="sbody"><div class="grid g3">
+        <div class="f"><label for="guardian">Parent / guardian name <span class="req">*</span></label><input type="text" id="guardian" name="guardian" maxlength="100" autocomplete="name" required><span class="ferr" id="e-guardian"></span></div>
+        <div class="f"><label for="email">Email <span class="req">*</span></label><input type="email" id="email" name="email" maxlength="254" autocomplete="email" required><span class="ferr" id="e-email"></span></div>
+        <div class="f"><label for="phone">Phone <span class="req">*</span></label><input type="tel" id="phone" name="phone" maxlength="30" autocomplete="tel" required><span class="ferr" id="e-phone"></span></div>
+        <div class="f span4" style="grid-column:1/-1"><label for="address">Home address <span class="req">*</span></label><input type="text" id="address" name="address" maxlength="250" autocomplete="street-address" placeholder="Street, city, state, ZIP" required><span class="ferr" id="e-address"></span></div>
+      </div></div>
+    </fieldset>
+
+    <fieldset class="fsec">
+      <legend class="shdr"><span class="snum">3</span> Emergency &amp; medical</legend>
+      <div class="sbody"><div class="grid g3">
+        <div class="f"><label for="emergency_name">Emergency contact name <span class="req">*</span></label><input type="text" id="emergency_name" name="emergency_name" maxlength="100" autocomplete="off" required><span class="ferr" id="e-emergency_name"></span></div>
+        <div class="f"><label for="relationship">Relationship <span class="req">*</span></label><input type="text" id="relationship" name="relationship" maxlength="60" autocomplete="off" required><span class="ferr" id="e-relationship"></span></div>
+        <div class="f"><label for="emergency_phone">Emergency phone <span class="req">*</span></label><input type="tel" id="emergency_phone" name="emergency_phone" maxlength="30" autocomplete="off" required><span class="ferr" id="e-emergency_phone"></span></div>
+        <div class="f span2" style="grid-column:span 2"><label for="medical">Allergies / medical conditions <span class="opt">(optional)</span></label><textarea id="medical" name="medical" maxlength="1000"></textarea></div>
+        <div class="f"><label for="accommodations">Special accommodations <span class="opt">(optional)</span></label><textarea id="accommodations" name="accommodations" maxlength="1000"></textarea></div>
+      </div></div>
+    </fieldset>
+
+    <fieldset class="fsec">
+      <legend class="shdr"><span class="snum">4</span> League information</legend>
+      <div class="sbody"><div class="grid g3">
+        <div class="f"><label for="experience">Prior experience <span class="opt">(optional)</span></label>
+          <select id="experience" name="experience"><option value="">Select&hellip;</option><option value="none">No prior experience</option><option value="1year">1 year</option><option value="2years">2 years</option><option value="3plus">3+ years</option></select></div>
+        <div class="f"><label for="position">Preferred position <span class="opt">(optional)</span></label>
+          <select id="position" name="position"><option value="">Select&hellip;</option><option>Quarterback</option><option>Wide Receiver</option><option>Running Back</option><option>Center</option><option>Linebacker</option><option>Cornerback</option><option>Safety</option><option>No preference</option></select></div>
+        <div class="f"><label for="team_request">Team request <span class="opt">(optional)</span></label><input type="text" id="team_request" name="team_request" maxlength="200"></div>
+      </div></div>
+    </fieldset>
+
+    <fieldset class="fsec">
+      <legend class="shdr"><span class="snum">5</span> Agreements</legend>
+      <div class="sbody">
+        <p style="margin-bottom:.8rem;color:var(--muted);font-size:.95rem">Please read each document, then check the box to accept.</p>
+
+        <!-- OWNER ITEM: replace each placeholder block with the approved full text, then delete data-placeholder="true". -->
+        <details class="policy" open><summary>Participation waiver</summary><div class="policy-body"><div class="placeholder" data-placeholder="true">[APPROVED PARTICIPATION WAIVER TEXT REQUIRED BEFORE LAUNCH]</div></div></details>
+        <details class="policy"><summary>Medical authorization</summary><div class="policy-body"><div class="placeholder" data-placeholder="true">[APPROVED MEDICAL AUTHORIZATION TEXT REQUIRED BEFORE LAUNCH]</div></div></details>
+        <details class="policy"><summary>Code of conduct</summary><div class="policy-body"><div class="placeholder" data-placeholder="true">[APPROVED CODE OF CONDUCT TEXT REQUIRED BEFORE LAUNCH]</div></div></details>
+        <details class="policy"><summary>Photo / video release (optional)</summary><div class="policy-body"><div class="placeholder" data-placeholder="true">[APPROVED MEDIA RELEASE TEXT REQUIRED BEFORE LAUNCH]</div></div></details>
+        <details class="policy"><summary>Privacy notice</summary><div class="policy-body"><div class="placeholder" data-placeholder="true">[APPROVED PRIVACY NOTICE REQUIRED BEFORE LAUNCH]</div></div></details>
+
+        <label class="agree" id="a-guardian_confirmation"><input type="checkbox" id="guardian_confirmation" name="guardian_confirmation"><span class="t"><strong>Parent / guardian confirmation <span class="req">*</span></strong>I am the parent or legal guardian of this player and the information I entered is accurate.</span></label>
+        <label class="agree" id="a-waiver"><input type="checkbox" id="waiver" name="waiver"><span class="t"><strong>Participation waiver <span class="req">*</span></strong>I have read and accept the full participation waiver above.</span></label>
+        <label class="agree" id="a-medical_authorization"><input type="checkbox" id="medical_authorization" name="medical_authorization"><span class="t"><strong>Medical authorization <span class="req">*</span></strong>I have read and accept the full medical authorization above.</span></label>
+        <label class="agree" id="a-code_of_conduct"><input type="checkbox" id="code_of_conduct" name="code_of_conduct"><span class="t"><strong>Code of conduct <span class="req">*</span></strong>I have read and accept the full code of conduct above.</span></label>
+        <label class="agree" id="a-media_permission"><input type="checkbox" id="media_permission" name="media_permission"><span class="t"><strong>Photo / video release <span class="opt">(optional)</span></strong>I grant permission under the full media release above. Not required to register.</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset class="fsec">
+      <legend class="shdr"><span class="snum">6</span> Payment</legend>
+      <div class="sbody">
+        <div class="fee">
+          <div class="fee-box"><small>Registration fee</small><b>$125</b></div>
+          <div class="f" style="flex:1;min-width:240px"><label for="scholarship">Would you like to request scholarship assistance? <span class="req">*</span></label>
+            <select id="scholarship" name="scholarship" required><option value="">Select&hellip;</option><option value="no">No, I will pay the registration fee</option><option value="yes">Yes, I am requesting scholarship assistance</option></select><span class="ferr" id="e-scholarship"></span></div>
+        </div>
+        <p style="margin-top:.8rem;font-size:.92rem;color:var(--muted)">After you submit, you will be sent to Square's secure payment page. We never see or store your card details. If you request a scholarship, our team will contact you and no payment is needed yet.</p>
+      </div>
+    </fieldset>
+
+    <fieldset class="fsec">
+      <legend class="shdr"><span class="snum">7</span> Signature</legend>
+      <div class="sbody">
+        <!-- OWNER ITEM: replace with approved e-signature wording. -->
+        <p style="margin-bottom:.8rem;font-size:.95rem">By typing my name below, I am signing this registration electronically and agreeing to the documents I accepted above.</p>
+        <div class="grid g2" style="grid-template-columns:2fr 1fr">
+          <div class="f"><label for="signature">Parent / guardian typed signature <span class="req">*</span></label><input type="text" id="signature" name="signature" maxlength="120" autocomplete="off" required><span class="ferr" id="e-signature"></span></div>
+          <div class="f"><label for="signed_date">Date <span class="req">*</span></label><input type="date" id="signed_date" name="signed_date" required><span class="ferr" id="e-signed_date"></span></div>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="submit">
+      <button type="submit" id="submit">Submit registration</button>
+      <p id="submit-note">Your registration is saved when you see your reference number.</p>
+    </div>
+  </form>
+</main>
+
+<footer>Georgia Council of Youth Sports &middot; <a href="mailto:info@gcoys.org">info@gcoys.org</a></footer>
+
+<script>
+(() => {
+  'use strict';
+  const $ = (id) => document.getElementById(id);
+  const form = $('form'), banner = $('banner'), result = $('result'), submitBtn = $('submit');
+  const REF_RE = /^TCFFL-2026-[A-Z0-9]{6}$/;
+  const REQUIRED = ['first_name','last_name','dob','division','grade','school','jersey_size','guardian','email','phone','address','emergency_name','relationship','emergency_phone','scholarship','signature','signed_date'];
+  const AGREE_REQUIRED = ['guardian_confirmation','waiver','medical_authorization','code_of_conduct'];
+  const BOOL_FIELDS = [...AGREE_REQUIRED, 'media_permission'];
+
+  // One key per page load: if the network drops and the family taps Submit again, the server returns the same registration.
+  const idempotencyKey = (crypto.randomUUID ? crypto.randomUUID() : Array.from(crypto.getRandomValues(new Uint8Array(16)), b => b.toString(16).padStart(2, '0')).join(''));
+
+  function localToday() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+  $('signed_date').value = localToday();
+  $('dob').max = localToday();
+
+  function box(kind, html) { const d = document.createElement('div'); d.className = 'notice ' + kind; d.append(...html); return d; }
+  function el(tag, text, attrs = {}) { const e = document.createElement(tag); if (text) e.textContent = text; for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); return e; }
+
+  let blocked = false;
+  async function loadStatus() {
+    const hasPlaceholders = !!document.querySelector('[data-placeholder="true"]');
+    try {
+      const r = await fetch('/api/status', { cache: 'no-store' });
+      const s = await r.json();
+      if (!s.open) {
+        blocked = true;
+        banner.replaceChildren(box('warn', [el('strong', 'Online registration is not open yet. '), document.createTextNode('Please check back soon or contact info@gcoys.org.')]));
+      } else if (s.mode !== 'production') {
+        banner.replaceChildren(box('test', [el('strong', 'TEST MODE. '), document.createTextNode('Payments here are not real. Do not use real card numbers.')]));
+      } else if (hasPlaceholders) {
+        blocked = true;
+        banner.replaceChildren(box('warn', [el('strong', 'Preview. '), document.createTextNode('The registration documents are still being finalized, so registration cannot be submitted yet.')]));
+      }
+    } catch {
+      banner.replaceChildren(box('warn', [document.createTextNode('We could not check registration status. You can still try to submit; if it fails, contact info@gcoys.org.')]));
+    }
+    submitBtn.disabled = blocked;
+  }
+
+  // Returning from Square's payment page: show a neutral message. Payment is confirmed by Square's server notice, not by this page.
+  function showReturned() {
+    const p = new URLSearchParams(location.search);
+    const ref = p.get('ref');
+    if (p.get('returned') !== '1' || !ref || !REF_RE.test(ref)) return false;
+    form.hidden = true;
+    result.replaceChildren(box('ok', [
+      el('h2', 'Thank you!'),
+      el('p', 'If your payment went through, Square will confirm it to us shortly and you will receive an email. Your reference number is:'),
+      el('span', ref, { class: 'ref' }),
+      el('p', 'Please keep this number. Questions? Contact info@gcoys.org or 404-483-6378.'),
+    ]));
+    return true;
+  }
+
+  function fieldError(id, msg) {
+    const target = $(id) || $('a-' + id);
+    const err = $('e-' + id);
+    if (err) err.textContent = msg || '';
+    if (target) { target.classList.toggle('invalid', !!msg); if (msg) target.setAttribute('aria-invalid', 'true'); else target.removeAttribute('aria-invalid'); }
+    const agree = $('a-' + id); if (agree) agree.classList.toggle('invalid', !!msg);
+  }
+
+  function localValidate() {
+    const bad = [];
+    for (const id of REQUIRED) {
+      const v = $(id).value.trim();
+      let msg = '';
+      if (!v) msg = 'This field is required.';
+      else if (id === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) msg = 'Please enter a valid email address.';
+      else if ((id === 'phone' || id === 'emergency_phone') && (v.replace(/\D/g, '').length < 10)) msg = 'Please enter a valid phone number.';
+      fieldError(id, msg); if (msg) bad.push(id);
+    }
+    for (const id of AGREE_REQUIRED) {
+      const msg = $(id).checked ? '' : 'required';
+      fieldError(id, msg ? 'This agreement is required.' : ''); if (msg) bad.push(id);
+    }
+    return bad;
+  }
+
+  function collect() {
+    const data = { idempotency_key: idempotencyKey, website: $('website').value };
+    for (const f of form.elements) { if (f.name && !BOOL_FIELDS.includes(f.name) && f.name !== 'website') data[f.name] = f.value.trim(); }
+    for (const id of BOOL_FIELDS) data[id] = $(id).checked;
+    return data;
+  }
+
+  function showSuccess(res) {
+    form.hidden = true;
+    const nodes = [el('h2', 'Registration saved'), el('p', 'Your reference number is:'), el('span', res.registration_id, { class: 'ref' })];
+    if (res.checkout_url) {
+      let ok = false; try { ok = new URL(res.checkout_url).protocol === 'https:'; } catch {}
+      if (ok) {
+        nodes.push(el('p', 'One more step: please pay the $125 registration fee on Square\'s secure payment page to complete registration.'));
+        nodes.push(el('a', 'Continue to secure payment', { class: 'pay-btn', href: res.checkout_url, rel: 'noopener' }));
+        nodes.push(el('p', 'We also emailed you this link. Registration is complete once payment is confirmed.', { style: 'margin-top:.8rem;font-size:.9rem' }));
+      } else nodes.push(el('p', res.payment_notice || 'Our team will email you a secure payment link.'));
+    } else if (res.payment_status === 'scholarship_review') {
+      nodes.push(el('p', 'We received your scholarship request. Our team will review it and contact you. No payment is needed right now.'));
+    } else if (res.payment_status === 'paid') {
+      nodes.push(el('p', 'Payment for this registration has already been received. Thank you!'));
+    } else {
+      nodes.push(el('p', res.payment_notice || 'Our team will email you a secure payment link.'));
+    }
+    nodes.push(el('p', 'Please keep your reference number. Questions? info@gcoys.org or 404-483-6378.', { style: 'margin-top:.8rem;font-size:.9rem' }));
+    result.replaceChildren(box('ok', nodes));
+    result.focus(); result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function showError(msg) {
+    result.replaceChildren(box('err', [el('strong', msg)]));
+    result.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (blocked) return;
+    result.replaceChildren();
+    const bad = localValidate();
+    if (bad.length) {
+      showError('Please fix the highlighted fields.');
+      const first = $(bad[0]); if (first) first.focus();
+      return;
+    }
+    submitBtn.disabled = true; submitBtn.textContent = 'Submitting...';
+    try {
+      const res = await fetch('/api/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(collect()) });
+      let data = {};
+      try { data = await res.json(); } catch {}
+      if (res.status === 201 && data.registration_id) { showSuccess(data); return; }
+      if (res.status === 422 && data.fields) {
+        for (const [k, v] of Object.entries(data.fields)) fieldError(k === 'guardian' ? 'guardian' : k, v);
+        showError(data.error || 'Please fix the highlighted fields.');
+        const firstKey = Object.keys(data.fields)[0]; if ($(firstKey)) $(firstKey).focus();
+      } else {
+        showError((data && data.error) || 'We could not save your registration. Please try again or contact info@gcoys.org.');
+      }
+    } catch {
+      showError('We could not reach the server. Your registration was NOT confirmed. Please check your connection and try again; tapping Submit again will not create a duplicate.');
+    } finally {
+      if (!form.hidden) { submitBtn.disabled = blocked; submitBtn.textContent = 'Submit registration'; }
+    }
+  });
+
+  for (const id of REQUIRED) $(id).addEventListener('input', () => { if ($(id).classList.contains('invalid')) fieldError(id, ''); });
+  for (const id of AGREE_REQUIRED) $(id).addEventListener('change', () => { if ($(id).checked) fieldError(id, ''); });
+
+  if (!showReturned()) loadStatus();
+})();
+</script>
+</body>
+</html>

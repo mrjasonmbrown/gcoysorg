@@ -1,4 +1,14 @@
 .git
 .github
+.gitignore
+.dev.vars
+.wrangler
 README.md
 wrangler.jsonc
+package.json
+package-lock.json
+node_modules
+src
+test
+docs
+schema.sql

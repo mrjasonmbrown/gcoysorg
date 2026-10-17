@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>TCFFL Admin</title>
+<style>
+body{font-family:system-ui,sans-serif;margin:0;background:#f0f4f1;color:#17251f}
+main{max-width:1200px;margin:0 auto;padding:1.2rem}
+h1{color:#005b35}
+.bar{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin:1rem 0}
+input,button{font:inherit;padding:.6rem .8rem;border-radius:6px;border:1.5px solid #9db8a9}
+button{background:#005b35;color:#fff;border:0;cursor:pointer}
+button:disabled{opacity:.5}
+.err{color:#b3261e}
+.wrap{overflow:auto;background:#fff;border:1px solid #9db8a9;border-radius:8px}
+table{border-collapse:collapse;font-size:.85rem;white-space:nowrap}
+th,td{padding:.4rem .6rem;border-bottom:1px solid #e1e9e4;text-align:left}
+th{background:#1a2e22;color:#fff;position:sticky;top:0}
+</style></head><body><main>
+<h1>TCFFL registrations</h1>
+<p>Enter the admin token. It is kept only in this page's memory and is gone when you close or reload the tab.</p>
+<form class="bar" id="f"><input type="password" id="t" placeholder="Admin token" autocomplete="off" required>
+<button type="submit">Load</button><button type="button" id="csv" disabled>Download CSV</button></form>
+<p id="msg" role="status"></p>
+<div class="wrap" id="wrap" hidden><table><thead id="h"></thead><tbody id="b"></tbody></table></div>
+<script>
+(()=>{
+let token='';const $=i=>document.getElementById(i);
+async function call(q){return fetch('/api/admin/registrations'+q,{headers:{Authorization:'Bearer '+token},cache:'no-store'});}
+$('f').addEventListener('submit',async e=>{e.preventDefault();token=$('t').value.trim();$('t').value='';$('msg').className='';$('msg').textContent='Loading...';
+ try{const r=await call('');const d=await r.json().catch(()=>({}));
+  if(!r.ok){token='';$('csv').disabled=true;$('wrap').hidden=true;$('msg').className='err';$('msg').textContent=d.error||'Failed';return;}
+  const h=$('h'),b=$('b');h.replaceChildren();b.replaceChildren();
+  const hr=document.createElement('tr');for(const c of d.columns){const th=document.createElement('th');th.textContent=c;hr.append(th);}h.append(hr);
+  for(const row of d.registrations){const tr=document.createElement('tr');for(const c of d.columns){const td=document.createElement('td');td.textContent=row[c]??'';tr.append(td);}b.append(tr);}
+  $('wrap').hidden=false;$('csv').disabled=false;$('msg').textContent=d.count+' registrations'+(d.includes_medical?' (includes medical info)':'');
+ }catch{$('msg').className='err';$('msg').textContent='Network error';}});
+$('csv').addEventListener('click',async()=>{const r=await call('?format=csv');if(!r.ok){$('msg').className='err';$('msg').textContent='Download failed';return;}
+ const u=URL.createObjectURL(await r.blob());const a=document.createElement('a');a.href=u;a.download='tcffl-registrations.csv';a.click();URL.revokeObjectURL(u);});
+})();
+</script></main></body></html>
