@@ -1,7 +1,19 @@
 {
   "name": "gcoysorg",
+  "main": "src/worker.js",
   "compatibility_date": "2025-09-01",
   "assets": {
-    "directory": "./"
-  }
+    "directory": "./",
+    "binding": "ASSETS",
+    // Only /api/* runs the Worker; every other page is served directly as a static file.
+    "run_worker_first": ["/api/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "gcoys-registrations",
+      // Replace with the Database ID shown in Cloudflare -> Storage & Databases -> D1 (see docs/SETUP.md, step 1).
+      "database_id": "6f302414-48b4-4cbe-b4c7-1b28e8e8582b"
+    }
+  ]
 }
