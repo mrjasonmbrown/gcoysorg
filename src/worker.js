@@ -16,7 +16,7 @@ const DEFAULT_ADMIN_EMAIL = 'info@gcoys.org';
 
 // OWNER ITEM: replace with the version label of the approved waiver / medical authorization /
 // code of conduct / media release / privacy text once Michael supplies it. Stored with every registration.
-const CONSENT_VERSION = 'DRAFT-NOT-APPROVED';
+const CONSENT_VERSION = 'TCFFL-2026-10-17';
 
 // OWNER ITEM: sanity range only. The real birth-date cutoff per division is still to be confirmed.
 const MIN_AGE = 4;
