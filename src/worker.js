@@ -405,42 +405,53 @@ function squareHeaders(env) {
 async function createPaymentLink(env, reg, baseUrl) {
   if (!env.SQUARE_ACCESS_TOKEN || !env.SQUARE_LOCATION_ID) return { ok: false, error: 'Square is not configured' };
   try {
-    const res = await fetch(`${squareBase(env)}/v2/online-checkout/payment-links`, {
-      method: 'POST',
-      headers: squareHeaders(env),
-      body: JSON.stringify({
-        idempotency_key: reg.id,
-        order: {
-          location_id: env.SQUARE_LOCATION_ID,
-          reference_id: reg.id,
-          line_items: [{
-            name: ITEM_NAME,
-            quantity: '1',
-            note: reg.id,
-            // Price comes from the server constant, never from the browser.
-            base_price_money: { amount: FEE_CENTS, currency: 'USD' },
-          }],
-        },
-        checkout_options: {
-          redirect_url: `${baseUrl}/tcffl-registration/?returned=1&ref=${encodeURIComponent(reg.id)}`,
-          ask_for_shipping_address: false,
-        },
-        pre_populated_data: { buyer_email: reg.email },
-        payment_note: `TCFFL ${reg.id}`,
-      }),
-    });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok || !data.payment_link) {
-      const code = data.errors && data.errors[0] && data.errors[0].code;
-      console.error('Square payment link failed', res.status, code);
-      return { ok: false, error: `Square ${res.status}${code ? ' ' + code : ''}` };
+    let result = await requestPaymentLink(env, reg, baseUrl, true);
+    // Square refuses some email addresses. Never let that block a family from paying: retry without prefilling it.
+    if (!result.ok && result.code === 'INVALID_EMAIL_ADDRESS') {
+      result = await requestPaymentLink(env, reg, baseUrl, false);
     }
-    const link = data.payment_link;
-    return { ok: true, url: link.url || link.long_url, linkId: link.id, orderId: link.order_id };
+    return result;
   } catch (err) {
     console.error('Square request error', err && err.message);
     return { ok: false, error: 'Square request failed' };
   }
+}
+
+async function requestPaymentLink(env, reg, baseUrl, prefillEmail) {
+  const body = {
+    // A different key for the retry, because Square rejects one key reused with a changed request.
+    idempotency_key: prefillEmail ? reg.id : `${reg.id}-b`,
+    order: {
+      location_id: env.SQUARE_LOCATION_ID,
+      reference_id: reg.id,
+      line_items: [{
+        name: ITEM_NAME,
+        quantity: '1',
+        note: reg.id,
+        // Price comes from the server constant, never from the browser.
+        base_price_money: { amount: FEE_CENTS, currency: 'USD' },
+      }],
+    },
+    checkout_options: {
+      redirect_url: `${baseUrl}/tcffl-registration/?returned=1&ref=${encodeURIComponent(reg.id)}`,
+      ask_for_shipping_address: false,
+    },
+    payment_note: `TCFFL ${reg.id}`,
+  };
+  if (prefillEmail) body.pre_populated_data = { buyer_email: reg.email };
+  const res = await fetch(`${squareBase(env)}/v2/online-checkout/payment-links`, {
+    method: 'POST',
+    headers: squareHeaders(env),
+    body: JSON.stringify(body),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok || !data.payment_link) {
+    const code = data.errors && data.errors[0] && data.errors[0].code;
+    console.error('Square payment link failed', res.status, code);
+    return { ok: false, code, error: `Square ${res.status}${code ? ' ' + code : ''}` };
+  }
+  const link = data.payment_link;
+  return { ok: true, url: link.url || link.long_url, linkId: link.id, orderId: link.order_id };
 }
 
 async function squareGet(env, path) {
