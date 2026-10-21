@@ -6,6 +6,11 @@
 //   GET  /api/status            lets the form know whether registration is open
 //
 // Everything else is served from the static site (index.html, /tcffl-registration/, /admin/ ...).
+//
+// Hostnames:
+//   tcffl.gcoys.org/            -> TCFFL landing page (tcffl/index.html)
+//   tcffl.gcoys.org/register/   -> registration form (tcffl-registration/index.html)
+//   gcoys.org/tcffl-registration/... and gcoys.org/tcffl/ redirect to the subdomain.
 // Secrets live in the Cloudflare dashboard (never in this repo). See docs/SETUP.md.
 
 const FEE_CENTS = 12500; // $125. Set here on the server; the browser is never trusted for price.
@@ -33,6 +38,10 @@ const JERSEY_SIZES = ['YS', 'YM', 'YL', 'AS', 'AM', 'AL', 'AXL'];
 const EXPERIENCE = ['none', '1year', '2years', '3plus'];
 const POSITIONS = ['Quarterback', 'Wide Receiver', 'Running Back', 'Center', 'Linebacker', 'Cornerback', 'Safety', 'No preference'];
 
+const TCFFL_HOST = 'tcffl.gcoys.org';
+const MAIN_HOSTS = ['gcoys.org', 'www.gcoys.org'];
+const TCFFL_REGISTER_URL = `https://${TCFFL_HOST}/register/`;
+
 const encoder = new TextEncoder();
 
 // ---------------------------------------------------------------- routing
@@ -48,14 +57,46 @@ export default {
         case '/api/admin/registrations': return await handleAdmin(request, env, url);
       }
       if (url.pathname.startsWith('/api/')) return json({ error: 'Not found' }, 404);
+      return routeSite(request, env, url);
     } catch (err) {
       // Never leak internals. Nothing is reported as saved unless the database write succeeded.
       console.error('Unhandled error', url.pathname, err && err.message);
       return json({ error: 'Something went wrong on our end. Please try again, or contact info@gcoys.org.' }, 500);
     }
-    return env.ASSETS.fetch(request);
   },
 };
+
+// Static pages, with the tcffl.gcoys.org subdomain mapped onto its folders.
+function routeSite(request, env, url) {
+  const host = url.hostname.toLowerCase();
+  const path = url.pathname;
+  const isOldRegPath = path === '/tcffl-registration' || path.startsWith('/tcffl-registration/');
+  const isLandingFolder = path === '/tcffl' || path.startsWith('/tcffl/');
+
+  if (host === TCFFL_HOST) {
+    if (isOldRegPath) return redirect(`/register/${url.search}`);
+    if (isLandingFolder) return redirect('/');
+    if (path === '/' || path === '/index.html') return serveAsset(request, env, url, '/tcffl/');
+    if (path === '/register' || path === '/register/') return serveAsset(request, env, url, '/tcffl-registration/');
+    return env.ASSETS.fetch(request);
+  }
+
+  if (MAIN_HOSTS.includes(host)) {
+    // Old links (and Square return links made before the move) keep working.
+    if (isOldRegPath) return redirect(`${TCFFL_REGISTER_URL}${url.search}`);
+    if (isLandingFolder) return redirect(`https://${TCFFL_HOST}/`);
+  }
+
+  return env.ASSETS.fetch(request);
+}
+
+function serveAsset(request, env, url, assetPath) {
+  return env.ASSETS.fetch(new Request(new URL(assetPath + url.search, url.origin), request));
+}
+
+function redirect(location) {
+  return new Response(null, { status: 301, headers: { location, 'cache-control': 'public, max-age=3600' } });
+}
 
 // ---------------------------------------------------------------- responses
 
@@ -350,6 +391,15 @@ function baseUrlFor(env, url) {
   return (env.PUBLIC_BASE_URL || url.origin).replace(/\/+$/, '');
 }
 
+// Where Square sends the family back after paying. On the real domain that is the
+// subdomain's /register/ page; on workers.dev or local testing it stays on the same host.
+function registrationPageFor(baseUrl) {
+  let host = '';
+  try { host = new URL(baseUrl).hostname.toLowerCase(); } catch { /* ignore */ }
+  if (host === TCFFL_HOST || MAIN_HOSTS.includes(host)) return TCFFL_REGISTER_URL;
+  return `${baseUrl}/tcffl-registration/`;
+}
+
 function publicResult(reg) {
   const out = { registration_id: reg.id, payment_status: reg.payment_status };
   if (reg.payment_status === 'pending_payment' || reg.payment_status === 'failed') {
@@ -433,7 +483,7 @@ async function requestPaymentLink(env, reg, baseUrl, prefillEmail) {
       }],
     },
     checkout_options: {
-      redirect_url: `${baseUrl}/tcffl-registration/?returned=1&ref=${encodeURIComponent(reg.id)}`,
+      redirect_url: `${registrationPageFor(baseUrl)}?returned=1&ref=${encodeURIComponent(reg.id)}`,
       ask_for_shipping_address: false,
     },
     payment_note: `TCFFL ${reg.id}`,
