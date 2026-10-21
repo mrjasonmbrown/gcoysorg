@@ -77,3 +77,21 @@ CREATE TABLE IF NOT EXISTS rate_events (
   at      INTEGER NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_rate ON rate_events (ip_hash, at);
+
+-- Donations (gcoys.org/donate). The Worker also creates this table automatically if it is missing.
+CREATE TABLE IF NOT EXISTS donations (
+  id TEXT PRIMARY KEY,                 -- e.g. GCOYS-GIFT-K7P2QX
+  idempotency_key TEXT NOT NULL UNIQUE,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  amount_cents INTEGER NOT NULL,       -- checked by the server ($5 to $10,000)
+  fund TEXT NOT NULL,                  -- general | tcffl | repath | harvest
+  status TEXT NOT NULL,                -- pending | paid | failed | refunded | partial_refund
+  checkout_url TEXT,
+  square_payment_link_id TEXT,
+  square_order_id TEXT,
+  square_payment_id TEXT,
+  paid_at TEXT,
+  payment_error TEXT
+);
+CREATE INDEX IF NOT EXISTS donations_order ON donations (square_order_id);

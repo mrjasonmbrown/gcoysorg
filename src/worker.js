@@ -4,6 +4,8 @@
 //   POST /api/square-webhook    verified Square webhooks mark registrations paid / failed / refunded
 //   GET  /api/admin/registrations   protected export (JSON or ?format=csv)
 //   GET  /api/status            lets the form know whether registration is open
+//   POST /api/donate            validate -> save donation to D1 -> create Square checkout -> {donation_id, checkout_url}
+//   GET  /api/admin/donations   protected donations export (JSON or ?format=csv)
 //
 // Everything else is served from the static site (index.html, /tcffl-registration/, /admin/ ...).
 //
@@ -55,6 +57,8 @@ export default {
         case '/api/register': return await handleRegister(request, env, ctx, url);
         case '/api/square-webhook': return await handleWebhook(request, env, ctx, url);
         case '/api/admin/registrations': return await handleAdmin(request, env, url);
+        case '/api/donate': return await handleDonate(request, env, url);
+        case '/api/admin/donations': return await handleAdminDonations(request, env, url);
       }
       if (url.pathname.startsWith('/api/')) return json({ error: 'Not found' }, 404);
       return routeSite(request, env, url);
@@ -556,7 +560,7 @@ async function processSquareEvent(env, ctx, event) {
     const { payment } = await squareGet(env, `/v2/payments/${encodeURIComponent(paymentId)}`);
     if (!payment || !payment.order_id) return 'payment without order';
     const reg = await env.DB.prepare('SELECT * FROM registrations WHERE square_order_id=?1').bind(payment.order_id).first();
-    if (!reg) return 'no matching registration';
+    if (!reg) return processDonationPayment(env, payment, now);
     if (env.SQUARE_LOCATION_ID && payment.location_id && payment.location_id !== env.SQUARE_LOCATION_ID) return 'location mismatch';
 
     if (payment.status === 'COMPLETED') {
@@ -582,6 +586,14 @@ async function processSquareEvent(env, ctx, event) {
   if (event.type === 'refund.created' || event.type === 'refund.updated') {
     const refund = event.data && event.data.object && event.data.object.refund;
     if (!refund || refund.status !== 'COMPLETED' || !refund.payment_id) return 'refund not completed';
+    await ensureDonationsTable(env);
+    const don = await env.DB.prepare('SELECT * FROM donations WHERE square_payment_id=?1').bind(refund.payment_id).first();
+    if (don) {
+      const fullDon = refund.amount_money && refund.amount_money.amount >= don.amount_cents;
+      await env.DB.prepare('UPDATE donations SET status=?1, updated_at=?2 WHERE id=?3')
+        .bind(fullDon ? 'refunded' : 'partial_refund', now, don.id).run();
+      return fullDon ? 'donation refunded' : 'donation partial refund';
+    }
     const full = refund.amount_money && refund.amount_money.amount >= FEE_CENTS;
     await env.DB
       .prepare('UPDATE registrations SET payment_status=?1, updated_at=?2 WHERE square_payment_id=?3')
@@ -591,6 +603,215 @@ async function processSquareEvent(env, ctx, event) {
   }
 
   return 'ignored event type';
+}
+
+// ---------------------------------------------------------------- donations
+
+const DONATION_MIN_CENTS = 500;        // $5
+const DONATION_MAX_CENTS = 1000000;    // $10,000
+const DONATION_PREFIX = 'GCOYS-GIFT-';
+const DONATION_FUNDS = {
+  general: 'Where it is needed most',
+  tcffl: 'TCFFL girls flag football',
+  repath: 'GCOYS RePath Program',
+  harvest: 'Harvest in the Park',
+};
+
+let donationsTableReady = false;
+async function ensureDonationsTable(env) {
+  if (donationsTableReady) return;
+  await env.DB.prepare(`CREATE TABLE IF NOT EXISTS donations (
+    id TEXT PRIMARY KEY,
+    idempotency_key TEXT NOT NULL UNIQUE,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    amount_cents INTEGER NOT NULL,
+    fund TEXT NOT NULL,
+    status TEXT NOT NULL,
+    checkout_url TEXT,
+    square_payment_link_id TEXT,
+    square_order_id TEXT,
+    square_payment_id TEXT,
+    paid_at TEXT,
+    payment_error TEXT
+  )`).run();
+  await env.DB.prepare('CREATE INDEX IF NOT EXISTS donations_order ON donations (square_order_id)').run();
+  donationsTableReady = true;
+}
+
+function newDonationId() {
+  const bytes = crypto.getRandomValues(new Uint8Array(6));
+  let s = '';
+  for (const b of bytes) s += ID_ALPHABET[b % ID_ALPHABET.length];
+  return DONATION_PREFIX + s;
+}
+
+function donationPageFor(baseUrl) {
+  return `${baseUrl}/donate/`;
+}
+
+async function handleDonate(request, env, url) {
+  if (request.method !== 'POST') return json({ error: 'Method not allowed' }, 405, { allow: 'POST' });
+  const origin = request.headers.get('origin');
+  if (origin) {
+    let originHost = '';
+    try { originHost = new URL(origin).host; } catch { /* ignore */ }
+    if (originHost !== url.host) return json({ error: 'Forbidden' }, 403);
+  }
+  if (!(request.headers.get('content-type') || '').toLowerCase().startsWith('application/json')) {
+    return json({ error: 'Unsupported content type' }, 415);
+  }
+  const raw = await request.text();
+  if (raw.length > 2000) return json({ error: 'Request too large' }, 413);
+  let body;
+  try { body = JSON.parse(raw); } catch { return json({ error: 'Invalid request' }, 400); }
+  if (!body || typeof body !== 'object' || Array.isArray(body)) return json({ error: 'Invalid request' }, 400);
+  if (body.website) return json({ error: 'Unable to process this request.' }, 400);
+
+  // Amount comes in whole dollars from the page; the server checks it.
+  const dollars = Number(body.amount);
+  const amountCents = Math.round(dollars * 100);
+  if (!Number.isFinite(dollars) || amountCents < DONATION_MIN_CENTS || amountCents > DONATION_MAX_CENTS) {
+    return json({ error: 'Please choose an amount between $5 and $10,000.', field: 'amount' }, 422);
+  }
+  const fund = Object.prototype.hasOwnProperty.call(DONATION_FUNDS, body.fund) ? body.fund : 'general';
+  const key = typeof body.idempotency_key === 'string' && /^[A-Za-z0-9-]{16,64}$/.test(body.idempotency_key) ? body.idempotency_key : null;
+  if (!key) return json({ error: 'Invalid request' }, 400);
+
+  await ensureDonationsTable(env);
+
+  const existing = await env.DB.prepare('SELECT * FROM donations WHERE idempotency_key=?1').bind(key).first();
+  if (existing) {
+    if (existing.checkout_url && existing.status === 'pending') return json({ donation_id: existing.id, checkout_url: existing.checkout_url });
+    if (existing.status === 'paid') return json({ donation_id: existing.id, status: 'paid' });
+  }
+
+  const ipHash = await sha256Hex((request.headers.get('cf-connecting-ip') || 'unknown') + ':don');
+  if (await throttle(env, ipHash, RATE_LIMIT)) {
+    return json({ error: 'Too many attempts. Please wait a few minutes and try again.' }, 429, { 'retry-after': '600' });
+  }
+
+  let don = existing;
+  if (!don) {
+    const now = new Date().toISOString();
+    for (let i = 0; i < 5 && !don; i++) {
+      const id = newDonationId();
+      const r = await env.DB
+        .prepare('INSERT OR IGNORE INTO donations (id, idempotency_key, created_at, updated_at, amount_cents, fund, status) VALUES (?1, ?2, ?3, ?3, ?4, ?5, ?6)')
+        .bind(id, key, now, amountCents, fund, 'pending')
+        .run();
+      if (r.meta && r.meta.changes > 0) don = { id, idempotency_key: key, amount_cents: amountCents, fund, status: 'pending' };
+      else don = await env.DB.prepare('SELECT * FROM donations WHERE idempotency_key=?1').bind(key).first();
+    }
+    if (!don) throw new Error('Could not allocate donation id');
+  }
+
+  const link = await createDonationLink(env, don, baseUrlFor(env, url));
+  const now = new Date().toISOString();
+  if (!link.ok) {
+    await env.DB.prepare('UPDATE donations SET payment_error=?1, updated_at=?2 WHERE id=?3').bind(link.error, now, don.id).run();
+    return json({ error: 'We could not open the secure payment page. Please try again in a moment, or contact info@gcoys.org.' }, 502);
+  }
+  await env.DB
+    .prepare('UPDATE donations SET checkout_url=?1, square_payment_link_id=?2, square_order_id=?3, payment_error=NULL, updated_at=?4 WHERE id=?5')
+    .bind(link.url, link.linkId, link.orderId, now, don.id)
+    .run();
+  return json({ donation_id: don.id, checkout_url: link.url }, 201);
+}
+
+async function createDonationLink(env, don, baseUrl) {
+  if (!env.SQUARE_ACCESS_TOKEN || !env.SQUARE_LOCATION_ID) return { ok: false, error: 'Square is not configured' };
+  const fundLabel = DONATION_FUNDS[don.fund] || DONATION_FUNDS.general;
+  const body = {
+    idempotency_key: don.id,
+    order: {
+      location_id: env.SQUARE_LOCATION_ID,
+      reference_id: don.id,
+      line_items: [{
+        name: `Donation to GCoYS - ${fundLabel}`,
+        quantity: '1',
+        note: don.id,
+        base_price_money: { amount: don.amount_cents, currency: 'USD' },
+      }],
+    },
+    checkout_options: {
+      redirect_url: `${donationPageFor(baseUrl)}?thanks=1&ref=${encodeURIComponent(don.id)}`,
+      ask_for_shipping_address: false,
+    },
+    payment_note: `GCoYS donation ${don.id} (${don.fund})`,
+  };
+  try {
+    const res = await fetch(`${squareBase(env)}/v2/online-checkout/payment-links`, {
+      method: 'POST', headers: squareHeaders(env), body: JSON.stringify(body),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.payment_link) {
+      const code = data.errors && data.errors[0] && data.errors[0].code;
+      console.error('Square donation link failed', res.status, code);
+      return { ok: false, error: `Square ${res.status}${code ? ' ' + code : ''}` };
+    }
+    const link = data.payment_link;
+    return { ok: true, url: link.url || link.long_url, linkId: link.id, orderId: link.order_id };
+  } catch (err) {
+    console.error('Square donation request error', err && err.message);
+    return { ok: false, error: 'Square request failed' };
+  }
+}
+
+async function processDonationPayment(env, payment, now) {
+  await ensureDonationsTable(env);
+  const don = await env.DB.prepare('SELECT * FROM donations WHERE square_order_id=?1').bind(payment.order_id).first();
+  if (!don) return 'no matching registration or donation';
+  if (env.SQUARE_LOCATION_ID && payment.location_id && payment.location_id !== env.SQUARE_LOCATION_ID) return 'location mismatch';
+  if (payment.status === 'COMPLETED') {
+    const amount = payment.amount_money || {};
+    if (amount.amount !== don.amount_cents || amount.currency !== 'USD') return `donation amount mismatch ${amount.amount} ${amount.currency}`;
+    await env.DB
+      .prepare("UPDATE donations SET status='paid', square_payment_id=?1, paid_at=?2, updated_at=?2 WHERE id=?3 AND status NOT IN ('paid','refunded','partial_refund')")
+      .bind(payment.id, now, don.id)
+      .run();
+    return 'donation paid';
+  }
+  if (payment.status === 'FAILED' || payment.status === 'CANCELED') {
+    await env.DB.prepare("UPDATE donations SET status='failed', updated_at=?1 WHERE id=?2 AND status='pending'").bind(now, don.id).run();
+    return `donation payment ${payment.status}`;
+  }
+  return `donation ignored status ${payment.status}`;
+}
+
+const DONATION_COLUMNS = ['id', 'created_at', 'paid_at', 'status', 'amount_cents', 'fund', 'square_order_id', 'square_payment_id'];
+
+async function handleAdminDonations(request, env, url) {
+  if (request.method !== 'GET') return json({ error: 'Method not allowed' }, 405, { allow: 'GET' });
+  const ipHash = await sha256Hex((request.headers.get('cf-connecting-ip') || 'unknown') + ':admin');
+  const since = Date.now() - RATE_WINDOW_MS;
+  const fails = await env.DB.prepare('SELECT COUNT(*) AS n FROM rate_events WHERE ip_hash=?1 AND at>?2').bind(ipHash, since).first();
+  if (fails && fails.n >= ADMIN_FAIL_LIMIT) return json({ error: 'Too many attempts' }, 429, { 'retry-after': '600' });
+  const auth = request.headers.get('authorization') || '';
+  const token = auth.startsWith('Bearer ') ? auth.slice(7).trim() : '';
+  const ok = (env.ADMIN_TOKEN && token && (await safeEqual(token, env.ADMIN_TOKEN))) ||
+             (env.MEDICAL_ADMIN_TOKEN && token && (await safeEqual(token, env.MEDICAL_ADMIN_TOKEN)));
+  if (!ok) {
+    await env.DB.prepare('INSERT INTO rate_events (ip_hash, at) VALUES (?1, ?2)').bind(ipHash, Date.now()).run();
+    return json({ error: 'Unauthorized' }, 401, { 'www-authenticate': 'Bearer' });
+  }
+  await ensureDonationsTable(env);
+  const { results } = await env.DB.prepare(`SELECT ${DONATION_COLUMNS.join(',')} FROM donations ORDER BY created_at DESC LIMIT 10000`).all();
+  const paid = results.filter((r) => r.status === 'paid');
+  const totals = {};
+  for (const r of paid) totals[r.fund] = (totals[r.fund] || 0) + r.amount_cents;
+  if (url.searchParams.get('format') === 'csv') {
+    return new Response(toCsv(results, DONATION_COLUMNS), {
+      status: 200,
+      headers: {
+        'content-type': 'text/csv; charset=utf-8',
+        'content-disposition': 'attachment; filename="gcoys-donations.csv"',
+        'cache-control': 'no-store',
+        'x-content-type-options': 'nosniff',
+      },
+    });
+  }
+  return json({ count: results.length, paid_count: paid.length, paid_total_cents_by_fund: totals, columns: DONATION_COLUMNS, donations: results });
 }
 
 // ---------------------------------------------------------------- email (optional, via Resend)

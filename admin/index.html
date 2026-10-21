@@ -18,7 +18,7 @@ th{background:#1a2e22;color:#fff;position:sticky;top:0}
 <h1>TCFFL registrations</h1>
 <p>Enter the admin token. It is kept only in this page's memory and is gone when you close or reload the tab.</p>
 <form class="bar" id="f"><input type="password" id="t" placeholder="Admin token" autocomplete="off" required>
-<button type="submit">Load</button><button type="button" id="csv" disabled>Download CSV</button></form>
+<button type="submit">Load</button><button type="button" id="csv" disabled>Download CSV</button><button type="button" id="dcsv" disabled>Download donations CSV</button></form>
 <p id="msg" role="status"></p>
 <div class="wrap" id="wrap" hidden><table><thead id="h"></thead><tbody id="b"></tbody></table></div>
 <script>
@@ -31,9 +31,11 @@ $('f').addEventListener('submit',async e=>{e.preventDefault();token=$('t').value
   const h=$('h'),b=$('b');h.replaceChildren();b.replaceChildren();
   const hr=document.createElement('tr');for(const c of d.columns){const th=document.createElement('th');th.textContent=c;hr.append(th);}h.append(hr);
   for(const row of d.registrations){const tr=document.createElement('tr');for(const c of d.columns){const td=document.createElement('td');td.textContent=row[c]??'';tr.append(td);}b.append(tr);}
-  $('wrap').hidden=false;$('csv').disabled=false;$('msg').textContent=d.count+' registrations'+(d.includes_medical?' (includes medical info)':'');
+  $('wrap').hidden=false;$('csv').disabled=false;$('dcsv').disabled=false;$('msg').textContent=d.count+' registrations'+(d.includes_medical?' (includes medical info)':'');
  }catch{$('msg').className='err';$('msg').textContent='Network error';}});
 $('csv').addEventListener('click',async()=>{const r=await call('?format=csv');if(!r.ok){$('msg').className='err';$('msg').textContent='Download failed';return;}
  const u=URL.createObjectURL(await r.blob());const a=document.createElement('a');a.href=u;a.download='tcffl-registrations.csv';a.click();URL.revokeObjectURL(u);});
+$('dcsv').addEventListener('click',async()=>{const r=await fetch('/api/admin/donations?format=csv',{headers:{Authorization:'Bearer '+token},cache:'no-store'});if(!r.ok){$('msg').className='err';$('msg').textContent='Download failed';return;}
+ const u=URL.createObjectURL(await r.blob());const a=document.createElement('a');a.href=u;a.download='gcoys-donations.csv';a.click();URL.revokeObjectURL(u);});
 })();
 </script></main></body></html>
