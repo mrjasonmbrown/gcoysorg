@@ -35,3 +35,12 @@ Replace the `[APPROVED ... REQUIRED]` placeholder blocks in `tcffl-registration/
 Waiver, medical authorization, code of conduct, media release, privacy notice; refund and scholarship policy; birth-date cutoffs per division; real registration and season dates; e-signature wording sign-off.
 
 Optional hardening: protect `/admin/*` and `/api/admin/*` with Cloudflare Access.
+
+## Donations (gcoys.org/donate)
+- Uses the same Square account, location and webhook as TCFFL registrations. No new Cloudflare settings are needed.
+- The `donations` table is created automatically on first use (also listed in schema.sql).
+- Amounts are checked on the server ($5 to $10,000). Programs: general, tcffl, repath, harvest. Link with `?fund=tcffl` to preselect one.
+- Paid / refunded status comes only from verified Square webhooks.
+- Export: /admin/ → "Download donations CSV" (same admin token).
+- While `SQUARE_ENV` is not `production`, the page shows a "test mode" notice and no real money moves.
+- Test: `node --no-warnings test/donate.mjs`

@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Donate | Georgia Council of Youth Sports</title>
+<meta name="description" content="Give South Metro Atlanta kids a team, a mentor and a meal. Donate securely to the Georgia Council of Youth Sports, a 501(c)(3) nonprofit.">
+<link rel="canonical" href="https://gcoys.org/donate/">
+<meta property="og:title" content="Donate to GCoYS: give a kid a team, a mentor and a meal">
+<meta property="og:description" content="Sports, mentorship and community support for South Metro Atlanta youth and families. Secure giving through Square.">
+<meta property="og:url" content="https://gcoys.org/donate/">
+<meta property="og:image" content="https://gcoys.org/img/gcys-logo.png">
+<link rel="icon" href="/img/gcys-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#2D6A4F; --green-mid:#1B4332; --green-dark:#0D2B1F; --green-light:#4A9070;
+    --gold:#D4A017; --gold-light:#F0C040; --off-white:#F7F7F2; --text:#1A1A1A; --muted:#5C6B60;
+    --line:#dfe6e0; --err:#b3261e;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Barlow',system-ui,sans-serif;background:var(--off-white);color:var(--text);line-height:1.55;font-size:17px}
+  a{color:inherit}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+  .skip{position:absolute;left:-999px}.skip:focus{left:12px;top:12px;background:#fff;padding:.5rem 1rem;z-index:50}
+
+  .top{background:var(--green-dark);color:#fff;border-bottom:2px solid var(--gold)}
+  .top .wrap{display:flex;align-items:center;justify-content:space-between;height:62px;gap:1rem}
+  .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none}
+  .brand img{width:38px;height:38px}
+  .brand b{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.45rem;letter-spacing:.03em;line-height:1}
+  .brand small{display:block;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-light);font-weight:600}
+  .top nav{display:flex;gap:1.2rem;font-weight:600;font-size:.92rem}
+  .top nav a{text-decoration:none;opacity:.88}.top nav a:hover{opacity:1}
+  @media (max-width:640px){.top nav{display:none}}
+
+  .hero{background:radial-gradient(800px 420px at 90% 0%,rgba(212,160,23,.18),transparent 60%),linear-gradient(160deg,var(--green-mid),var(--green-dark));color:#fff;padding:44px 0 56px}
+  .hero .wrap{display:grid;grid-template-columns:1fr 440px;gap:2.5rem;align-items:start}
+  @media (max-width:900px){.hero .wrap{grid-template-columns:1fr;gap:1.4rem}.hero{padding:28px 0 36px}}
+  .eyebrow{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-light);font-size:.92rem}
+  .hero h1{font-family:'Barlow Condensed',sans-serif;font-weight:900;text-transform:uppercase;line-height:.92;font-size:clamp(2.5rem,7vw,4.6rem);margin:.4rem 0 .9rem}
+  .hero h1 span{color:var(--gold)}
+  .hero .lede{font-size:1.12rem;opacity:.92;max-width:34rem}
+  .proof{display:flex;flex-wrap:wrap;gap:.5rem 1.4rem;margin-top:1.4rem;font-weight:600;font-size:.95rem}
+  .proof span{display:flex;align-items:center;gap:.4rem}
+  .proof svg{width:18px;height:18px;color:var(--gold-light);flex:none}
+  @media (max-width:900px){.hero .lede{font-size:1rem}.proof{display:none}}
+  @media (max-width:560px){.hero .lede .more{display:none}}
+
+  /* give card */
+  .give{background:#fff;color:var(--text);border-radius:14px;padding:1.4rem;box-shadow:0 18px 50px rgba(0,0,0,.28)}
+  .give h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;text-transform:uppercase;font-size:1.6rem;color:var(--green-dark);line-height:1}
+  .give .hint{color:var(--muted);font-size:.9rem;margin:.25rem 0 1rem}
+  .amts{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+  .amt{position:relative}
+  .amt input{position:absolute;opacity:0;inset:0;pointer-events:none}
+  .amt label{display:block;border:2px solid var(--line);border-radius:10px;padding:.65rem .75rem;cursor:pointer;min-height:100%;transition:border-color .15s,background .15s}
+  .amt label b{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.65rem;line-height:1;color:var(--green-dark)}
+  .amt label small{display:block;font-size:.8rem;color:var(--muted);line-height:1.3;margin-top:.25rem}
+  .amt input:checked + label{border-color:var(--green);background:#eef6f1}
+  .amt input:focus-visible + label{outline:3px solid var(--gold);outline-offset:2px}
+  .other{grid-column:1 / -1;display:none;align-items:center;gap:.5rem;border:2px solid var(--green);border-radius:10px;padding:.35rem .75rem;margin-top:.1rem}
+  .other.show{display:flex}
+  .other span{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.6rem;color:var(--green-dark)}
+  .other input{border:0;outline:0;font:inherit;font-size:1.4rem;font-weight:700;width:100%;padding:.25rem 0;background:transparent}
+  .field{margin-top:1rem}
+  .field label{display:block;font-size:.85rem;font-weight:700;color:var(--muted);margin-bottom:.3rem}
+  .field select{width:100%;font:inherit;padding:.7rem .8rem;border:2px solid var(--line);border-radius:10px;background:#fff}
+  .field select:focus{border-color:var(--green);outline:0}
+  .go{margin-top:1.1rem;width:100%;border:0;border-radius:10px;background:var(--gold);color:var(--green-dark);font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.45rem;letter-spacing:.05em;text-transform:uppercase;padding:.95rem 1rem;cursor:pointer;transition:background .15s,transform .15s}
+  .go:hover{background:var(--gold-light);transform:translateY(-1px)}
+  .go:disabled{opacity:.65;cursor:wait;transform:none}
+  .secure{display:flex;align-items:center;justify-content:center;gap:.4rem;margin-top:.7rem;font-size:.82rem;color:var(--muted)}
+  .secure svg{width:15px;height:15px}
+  .msg{margin-top:.8rem;font-size:.92rem;border-radius:8px;padding:.6rem .8rem;display:none}
+  .msg.show{display:block}
+  .msg.err{background:#fde8e6;color:var(--err)}
+  .msg.warn{background:#fff6d6;color:#5a4800}
+  .hp{position:absolute;left:-9999px}
+  @media (max-width:560px){
+    .hero{padding:18px 0 28px}
+    .hero h1{font-size:2.15rem;margin:.25rem 0 .5rem}
+    .hero .lede{font-size:.95rem;line-height:1.45}
+    .give{padding:1.1rem}
+    .give .hint{margin-bottom:.7rem}
+    .amt label{padding:.5rem .65rem}
+    .amt label b{font-size:1.45rem}
+    .amt label small{font-size:.76rem}
+    .field{margin-top:.75rem}
+    .go{margin-top:.8rem;padding:.85rem 1rem}
+  }
+
+  .thanks{text-align:center;padding:.6rem 0}
+  .thanks h2{font-size:2rem}
+  .thanks p{color:var(--muted);margin:.6rem 0}
+  .thanks .ref{display:inline-block;font-family:ui-monospace,Menlo,monospace;font-weight:700;background:#eef6f1;border:1px dashed var(--green);border-radius:6px;padding:.3rem .6rem;margin:.4rem 0}
+  .thanks a.btn{display:inline-block;margin-top:.6rem;text-decoration:none;background:var(--green);color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:.7rem 1.2rem;border-radius:8px}
+
+  /* impact */
+  section.block{padding:60px 0}
+  .kicker{font-family:'Barlow Condensed',sans-serif;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--green);font-size:.95rem}
+  h2.title{font-family:'Barlow Condensed',sans-serif;font-weight:900;text-transform:uppercase;font-size:clamp(2rem,5vw,3rem);line-height:.95;color:var(--green-dark);margin:.3rem 0 .8rem}
+  .intro{max-width:42rem;color:var(--muted)}
+  .funds{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2rem}
+  @media (max-width:980px){.funds{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:560px){.funds{grid-template-columns:1fr}}
+  .fund{--c:var(--green);background:#fff;border-radius:12px;border:1px solid var(--line);border-top:6px solid var(--c);padding:1.3rem;display:flex;flex-direction:column}
+  .fund h3{font-family:'Barlow Condensed',sans-serif;font-weight:900;text-transform:uppercase;font-size:1.4rem;line-height:1.05;color:var(--c)}
+  .fund p{color:var(--muted);font-size:.95rem;margin:.5rem 0 1rem}
+  .fund button{margin-top:auto;align-self:flex-start;background:none;border:1.5px solid var(--c);color:var(--c);border-radius:6px;padding:.5rem .9rem;font-family:'Barlow Condensed',sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.06em;cursor:pointer}
+  .fund button:hover{background:var(--c);color:#fff}
+
+  .faq{background:#fff;border-top:1px solid var(--line)}
+  .faq dl{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem 2.4rem;margin-top:1.4rem}
+  @media (max-width:760px){.faq dl{grid-template-columns:1fr}}
+  .faq dt{font-weight:700;color:var(--green-dark)}
+  .faq dd{color:var(--muted);margin-top:.2rem}
+
+  footer{background:var(--green-dark);color:rgba(255,255,255,.72);font-size:.9rem;padding:1.6rem 0}
+  footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.8rem}
+  footer a{color:#fff}
+</style>
+</head>
+<body>
+<a class="skip" href="#give">Skip to the donation form</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="GCoYS home">
+      <img src="/img/gcys-logo.png" alt="" width="38" height="38">
+      <span><b>GCoYS</b><small>Georgia Council of Youth Sports</small></span>
+    </a>
+    <nav aria-label="Main">
+      <a href="/">Home</a>
+      <a href="/programs/">Programs</a>
+      <a href="https://tcffl.gcoys.org/">TCFFL</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <div class="eyebrow">Donate &middot; 501(c)(3) Nonprofit</div>
+        <h1>Give a kid a team, <span>a mentor and a meal.</span></h1>
+        <p class="lede">GCoYS uses sports, mentorship and food support to help South Metro Atlanta youth build a stronger future.<span class="more"> Your gift goes straight to the programs that make it happen.</span></p>
+        <div class="proof" aria-label="Why give">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Four active programs</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Choose where your gift goes</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Secure checkout by Square</span>
+        </div>
+      </div>
+
+      <div class="give" id="give">
+        <form id="form" novalidate>
+          <h2>Choose your gift</h2>
+          <p class="hint">Takes under a minute. No account needed.</p>
+          <div class="amts" role="radiogroup" aria-label="Donation amount">
+            <div class="amt"><input type="radio" name="amount" id="a25" value="25"><label for="a25"><b>$25</b><small>Helps provide after-practice meals &amp; snacks</small></label></div>
+            <div class="amt"><input type="radio" name="amount" id="a50" value="50" checked><label for="a50"><b>$50</b><small>Helps fund a Saturday of RePath mentoring</small></label></div>
+            <div class="amt"><input type="radio" name="amount" id="a125" value="125"><label for="a125"><b>$125</b><small>Covers one girl&rsquo;s full TCFFL season</small></label></div>
+            <div class="amt"><input type="radio" name="amount" id="a250" value="250"><label for="a250"><b>$250</b><small>Helps stock family food boxes</small></label></div>
+            <div class="amt" style="grid-column:1 / -1"><input type="radio" name="amount" id="aother" value="other"><label for="aother"><b style="font-size:1.25rem">Other amount</b></label></div>
+            <div class="other" id="otherBox"><span>$</span><input type="text" inputmode="decimal" id="otherAmt" placeholder="Enter amount" aria-label="Other amount in dollars" maxlength="8"></div>
+          </div>
+          <div class="field">
+            <label for="fund">Where should it go?</label>
+            <select id="fund" name="fund">
+              <option value="general">Where it&rsquo;s needed most</option>
+              <option value="tcffl">TCFFL girls flag football</option>
+              <option value="repath">GCOYS RePath Program</option>
+              <option value="harvest">Harvest in the Park</option>
+            </select>
+          </div>
+          <input class="hp" type="text" name="website" id="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button class="go" type="submit" id="go">Donate $50</button>
+          <div class="msg" id="msg" role="alert"></div>
+          <div class="secure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Secure payment on Square. We never see your card.</div>
+        </form>
+        <div class="thanks" id="thanks" hidden>
+          <h2>Thank you!</h2>
+          <p>Your gift helps South Metro Atlanta youth play, grow and eat well. Square will email your receipt.</p>
+          <div class="ref" id="ref"></div>
+          <p style="font-size:.9rem">Keep this reference number with your receipt. Questions? <a href="mailto:info@gcoys.org">info@gcoys.org</a></p>
+          <a class="btn" href="/programs/">See what you support</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="kicker">Where your gift goes</div>
+      <h2 class="title">Four programs. One mission.</h2>
+      <p class="intro">Pick a program on the form above, or give where it&rsquo;s needed most and let GCoYS put it to work right away.</p>
+      <div class="funds">
+        <div class="fund" style="--c:#a8711c"><h3>TCFFL</h3><p>Girls&rsquo; flag football for 6U&ndash;14U. A $125 gift covers one player&rsquo;s full season registration.</p><button type="button" data-fund="tcffl" data-amt="125">Sponsor a player</button></div>
+        <div class="fund" style="--c:#3e6b4e"><h3>RePath Program</h3><p>12 Saturdays of mentorship, skill-building, guest speakers, breakfast and lunch for youth ages 13&ndash;17.</p><button type="button" data-fund="repath" data-amt="50">Give to RePath</button></div>
+        <div class="fund" style="--c:#8e3b2c"><h3>Harvest in the Park</h3><p>Youth meals after GCoYS activities, plus family food boxes and fresh produce at parks and community sites.</p><button type="button" data-fund="harvest" data-amt="25">Give to Harvest</button></div>
+        <div class="fund" style="--c:#1c2d4f"><h3>GCoYS Collaborative</h3><p>Bringing youth sports and development partners together across South Metro Atlanta.</p><button type="button" data-fund="general" data-amt="250">Give where needed</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block faq">
+    <div class="wrap">
+      <div class="kicker">Good to know</div>
+      <h2 class="title">Giving questions</h2>
+      <dl>
+        <div><dt>Is my donation secure?</dt><dd>Yes. You pay on Square&rsquo;s secure checkout page. GCoYS never sees or stores your card number.</dd></div>
+        <div><dt>Will I get a receipt?</dt><dd>Square emails a receipt right after you give. Keep it with your reference number for your records.</dd></div>
+        <div><dt>Is it tax-deductible?</dt><dd>The Georgia Council of Youth Sports is a 501(c)(3) nonprofit. Donations are tax-deductible to the extent allowed by law. Please consult your tax advisor.</dd></div>
+        <div><dt>Can my business sponsor a program?</dt><dd>We&rsquo;d love that. Email <a href="mailto:msmoak@gcoys.org">msmoak@gcoys.org</a> to talk about sponsorships, food partnerships or in-kind gifts.</dd></div>
+      </dl>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; 2026 Georgia Council of Youth Sports &middot; <a href="/">gcoys.org</a></span>
+    <span><a href="mailto:info@gcoys.org">info@gcoys.org</a> &middot; <a href="tel:4044836378">404-483-6378</a></span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var form = document.getElementById('form');
+  var go = document.getElementById('go');
+  var msg = document.getElementById('msg');
+  var otherBox = document.getElementById('otherBox');
+  var otherAmt = document.getElementById('otherAmt');
+  var fund = document.getElementById('fund');
+  function newKey() { return (self.crypto && crypto.randomUUID) ? crypto.randomUUID() : 'k' + Date.now().toString(16) + Math.random().toString(16).slice(2, 14) + 'abcdef'; }
+  var key = '', lastSig = '';
+
+  function show(text, kind) { msg.textContent = text; msg.className = 'msg show ' + (kind || 'err'); }
+  function hide() { msg.className = 'msg'; msg.textContent = ''; }
+  function selected() { var r = form.querySelector('input[name=amount]:checked'); return r ? r.value : ''; }
+  function amount() {
+    var v = selected();
+    if (v === 'other') { var n = parseFloat(String(otherAmt.value).replace(/[$,\s]/g, '')); return isFinite(n) ? Math.round(n * 100) / 100 : NaN; }
+    return Number(v);
+  }
+  function fmt(n) { return '$' + (n % 1 ? n.toFixed(2) : n.toLocaleString('en-US')); }
+  function update() {
+    otherBox.classList.toggle('show', selected() === 'other');
+    var n = amount();
+    go.textContent = (isFinite(n) && n > 0) ? 'Donate ' + fmt(n) : 'Donate';
+  }
+  form.addEventListener('change', function (e) {
+    update(); hide();
+    if (e.target && e.target.id === 'aother') otherAmt.focus();
+  });
+  otherAmt.addEventListener('input', update);
+
+  // Program buttons below fill in the form and scroll back up to it.
+  document.querySelectorAll('[data-fund]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      fund.value = b.getAttribute('data-fund');
+      var r = document.getElementById('a' + b.getAttribute('data-amt'));
+      if (r) r.checked = true;
+      update();
+      document.getElementById('give').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // ?fund=tcffl preselects a program (for links from other pages).
+  var params = new URLSearchParams(location.search);
+  var pf = params.get('fund');
+  if (pf && fund.querySelector('option[value="' + pf.replace(/[^a-z]/g, '') + '"]')) fund.value = pf;
+
+  if (params.get('thanks') === '1') {
+    form.hidden = true;
+    var t = document.getElementById('thanks');
+    t.hidden = false;
+    var ref = (params.get('ref') || '').replace(/[^A-Z0-9-]/g, '');
+    document.getElementById('ref').textContent = ref ? 'Reference: ' + ref : '';
+    if (!ref) document.getElementById('ref').hidden = true;
+    if (window.innerWidth < 900) document.getElementById('give').scrollIntoView({ block: 'start' });
+  } else {
+    fetch('/api/status', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (s) {
+      if (s && s.mode !== 'production') show('Online giving is in test mode. No real payment will be taken yet.', 'warn');
+    }).catch(function () {});
+  }
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    hide();
+    var n = amount();
+    if (!isFinite(n) || n < 5) { show('Please enter an amount of at least $5.'); if (selected() === 'other') otherAmt.focus(); return; }
+    if (n > 10000) { show('For gifts over $10,000, please email msmoak@gcoys.org and we will help you directly.'); return; }
+    // A new amount or program is a new donation; the same one (e.g. after pressing Back) reuses its checkout.
+    var sig = n + '|' + fund.value;
+    if (sig !== lastSig) { key = newKey(); lastSig = sig; }
+    go.disabled = true; var label = go.textContent; go.textContent = 'Opening secure checkout...';
+    try {
+      var res = await fetch('/api/donate', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: n, fund: fund.value, idempotency_key: key, website: document.getElementById('website').value })
+      });
+      var data = await res.json().catch(function () { return {}; });
+      if (res.ok && data.checkout_url) { location.href = data.checkout_url; return; }
+      if (res.ok && data.status === 'paid') { location.search = '?thanks=1&ref=' + encodeURIComponent(data.donation_id); return; }
+      show(data.error || 'Something went wrong. Please try again, or contact info@gcoys.org.');
+    } catch (err) {
+      show('We could not reach the server. Please check your connection and try again.');
+    }
+    go.disabled = false; go.textContent = label;
+  });
+
+  update();
+})();
+</script>
+</body>
+</html>

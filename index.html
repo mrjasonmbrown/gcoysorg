@@ -873,6 +873,10 @@
   .fp-actions .btn-gold { display: inline-block; text-decoration: none; }
   @media (max-width: 1000px) { .fp-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 600px) { .fp { padding: 3.5rem 1.2rem; } .fp-grid { grid-template-columns: 1fr; } }
+
+  .impact-give { text-align: center; margin-top: 3rem; }
+  .impact-give p { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; font-size: 1.3rem; margin-bottom: 1rem; }
+  .impact-give .btn-gold { display: inline-block; text-decoration: none; }
 </style>
 </head>
 <body>
@@ -894,7 +898,8 @@
     <li><a href="#partners">Partners</a></li>
     <li><a href="#involved">Get Involved</a></li>
     <li><a href="https://tcffl.gcoys.org/">TCFFL</a></li>
-    <li><a href="#contact" class="nav-cta">Contact Us</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="/donate/" class="nav-cta">Donate</a></li>
   </ul>
   <!-- Hamburger (mobile only) -->
   <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
@@ -914,7 +919,8 @@
   <a href="#involved"  onclick="closeMobileMenu()">Get Involved</a>
   <a href="https://tcffl.gcoys.org/" onclick="closeMobileMenu()">TCFFL</a>
   <a href="#impact"    onclick="closeMobileMenu()">Impact</a>
-  <a href="#contact"   onclick="closeMobileMenu()" class="mob-cta">Contact Us</a>
+  <a href="#contact"   onclick="closeMobileMenu()">Contact Us</a>
+  <a href="/donate/" onclick="closeMobileMenu()" class="mob-cta">Donate</a>
 </div>
 
 <!-- HERO -->
@@ -1150,6 +1156,10 @@
       <p><strong>Secure a community wellness center</strong> to serve as the primary hub for all programs, sports, mentorship, and services.</p>
     </div>
   </div>
+  <div class="impact-give reveal">
+    <p>Help us reach these goals.</p>
+    <a href="/donate/" class="btn-gold">Donate Now</a>
+  </div>
 </section>
 
 <!-- PARTNERS -->
@@ -1237,7 +1247,7 @@
       <div class="icon" aria-hidden="true">💛</div>
       <h3>Donate</h3>
       <p>Your financial support keeps our programs free for youth who need them most. Every dollar funds sports leagues, mentorship, education, and community service.</p>
-      <a href="#contact" class="btn-gold" data-intent="Donate">Make a Donation</a>
+      <a href="/donate/" class="btn-gold">Make a Donation</a>
     </div>
     <div class="involve-card reveal">
       <div class="icon" aria-hidden="true">🏢</div>
