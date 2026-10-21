@@ -852,6 +852,27 @@
   .promo-later{margin-top:.8rem;background:none;border:0;color:rgba(255,255,255,.75);font:inherit;font-size:.92rem;text-decoration:underline;cursor:pointer}
   .promo-url{display:block;margin-top:.2rem;font-size:.85rem;opacity:.7}
   @media (max-width:420px){.promo h2{font-size:2.5rem}}
+
+  /* Four Programs section */
+  .fp { background: var(--off-white); padding: 5rem 2rem; }
+  .fp-inner { max-width: 1200px; margin: 0 auto; }
+  .fp-head { text-align: center; max-width: 720px; margin: 0 auto 3rem; }
+  .fp-head .section-tag { justify-content: center; }
+  .fp-head .section-tag::before { display: none; }
+  .fp-head .section-lead { margin: 0 auto; }
+  .fp-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.4rem; }
+  .fp-card { display: flex; flex-direction: column; background: white; border: 1px solid var(--border); border-top: 6px solid var(--c); border-radius: 10px; padding: 1.6rem 1.4rem; text-decoration: none; color: var(--text); transition: transform .2s, box-shadow .2s; }
+  .fp-card:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(13,43,31,.12); }
+  .fp-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: .8rem; }
+  .fp-num { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; letter-spacing: .12em; color: var(--c); }
+  .fp-badge { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; color: var(--c); background: color-mix(in srgb, var(--c) 13%, white); padding: .15rem .6rem; border-radius: 999px; }
+  .fp-card h3 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; text-transform: uppercase; font-size: 1.5rem; line-height: 1.05; color: var(--c); margin-bottom: .6rem; }
+  .fp-card p { color: var(--text-muted); font-size: .97rem; line-height: 1.6; }
+  .fp-more { margin-top: auto; padding-top: 1rem; font-weight: 700; color: var(--c); }
+  .fp-actions { text-align: center; margin-top: 2.4rem; }
+  .fp-actions .btn-gold { display: inline-block; text-decoration: none; }
+  @media (max-width: 1000px) { .fp-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .fp { padding: 3.5rem 1.2rem; } .fp-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -868,7 +889,7 @@
   <ul class="nav-links">
     <li><a href="#mission">Mission</a></li>
     <li><a href="#about">About Us</a></li>
-    <li><a href="#programs">Programs</a></li>
+    <li><a href="/programs/">Programs</a></li>
     <li><a href="#services">Services</a></li>
     <li><a href="#partners">Partners</a></li>
     <li><a href="#involved">Get Involved</a></li>
@@ -887,7 +908,7 @@
 <div class="nav-mobile-menu" id="mobile-menu" aria-hidden="true">
   <a href="#mission"   onclick="closeMobileMenu()">Mission</a>
   <a href="#about"    onclick="closeMobileMenu()">About Us</a>
-  <a href="#programs"  onclick="closeMobileMenu()">Programs</a>
+  <a href="/programs/" onclick="closeMobileMenu()">Programs</a>
   <a href="#services"  onclick="closeMobileMenu()">Services</a>
   <a href="#partners"  onclick="closeMobileMenu()">Partners</a>
   <a href="#involved"  onclick="closeMobileMenu()">Get Involved</a>
@@ -914,6 +935,45 @@
     <a href="#programs" class="btn-outline-white">Our Programs</a>
   </div>
 </section>
+
+<!-- FOUR PROGRAMS (full details on /programs/) -->
+<section class="fp" id="programs">
+  <div class="fp-inner">
+    <div class="fp-head">
+      <div class="section-tag">Program Overview</div>
+      <h2 class="section-title">Four Programs. One Mission.</h2>
+      <p class="section-lead">Sports, mentorship and community support for South Metro Atlanta youth and families.</p>
+    </div>
+    <div class="fp-grid">
+      <a class="fp-card reveal" style="--c:#1c2d4f" href="/programs/#collaborative">
+        <span class="fp-top"><span class="fp-num">01</span><span class="fp-badge">Active</span></span>
+        <h3>GCoYS Collaborative</h3>
+        <p>A GCoYS-led coalition uniting youth sports and development partners across South Metro Atlanta.</p>
+        <span class="fp-more">Learn more &rarr;</span>
+      </a>
+      <a class="fp-card reveal" style="--c:#a8711c" href="/programs/#tcffl">
+        <span class="fp-top"><span class="fp-num">02</span><span class="fp-badge">Active</span></span>
+        <h3>TCFFL</h3>
+        <p>Girls&rsquo; flag football feeder program for 6U&ndash;14U, with City of Hapeville Parks &amp; Recreation and NFL FLAG / RCX.</p>
+        <span class="fp-more">Learn more &rarr;</span>
+      </a>
+      <a class="fp-card reveal" style="--c:#3e6b4e" href="/programs/#repath">
+        <span class="fp-top"><span class="fp-num">03</span><span class="fp-badge">Pilot Cohort</span></span>
+        <h3>GCOYS RePath Program</h3>
+        <p>A 12-week Saturday program of mentorship and skills for first-time youth offenders ages 13&ndash;17.</p>
+        <span class="fp-more">Learn more &rarr;</span>
+      </a>
+      <a class="fp-card reveal" style="--c:#8e3b2c" href="/programs/#harvest">
+        <span class="fp-top"><span class="fp-num">04</span><span class="fp-badge">Launching</span></span>
+        <h3>Harvest in the Park</h3>
+        <p>Food security initiative: youth meals, family food boxes and produce at parks and community sites.</p>
+        <span class="fp-more">Learn more &rarr;</span>
+      </a>
+    </div>
+    <div class="fp-actions"><a href="/programs/" class="btn-gold">See All Four Programs</a></div>
+  </div>
+</section>
+
 
 <!-- STAT BAR -->
 <div class="stat-bar">
@@ -983,10 +1043,10 @@
 </section>
 
 <!-- PROGRAMS -->
-<section class="programs" id="programs">
+<section class="programs" id="approach">
   <div class="programs-header">
     <div class="section-tag">What We Offer</div>
-    <h2 class="section-title">Our Core Programs</h2>
+    <h2 class="section-title">How We Help</h2>
     <p class="section-lead" style="margin: 0 auto;">
       Four pillars that equip young people with the tools, community,
       and confidence to build successful, independent lives.
