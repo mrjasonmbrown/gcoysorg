@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Our Programs | Georgia Council of Youth Sports</title>
+<meta name="description" content="Four programs, one mission: the GCoYS Collaborative, TCFFL girls flag football, the GCOYS RePath Program, and Harvest in the Park. Sports, mentorship and community support for South Metro Atlanta youth and families.">
+<link rel="canonical" href="https://gcoys.org/programs/">
+<meta property="og:title" content="Four Programs. One Mission. | GCoYS">
+<meta property="og:description" content="Sports, mentorship and community support for South Metro Atlanta youth and families.">
+<meta property="og:url" content="https://gcoys.org/programs/">
+<meta property="og:image" content="https://gcoys.org/img/gcys-logo.png">
+<link rel="icon" href="/img/gcys-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#2D6A4F; --green-mid:#1B4332; --green-dark:#0D2B1F; --green-light:#4A9070;
+    --gold:#D4A017; --gold-light:#F0C040; --off-white:#F7F7F2; --text:#1A1A1A; --muted:#5C6B60;
+    --navy:#1c2d4f; --amber:#a8711c; --forest:#3e6b4e; --brick:#8e3b2c;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Barlow',system-ui,sans-serif;background:var(--off-white);color:var(--text);line-height:1.6;font-size:17px}
+  a{color:inherit}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+  .skip{position:absolute;left:-999px}.skip:focus{left:12px;top:12px;background:#fff;padding:.5rem 1rem;z-index:50}
+
+  .top{background:var(--green-dark);color:#fff;position:sticky;top:0;z-index:20;border-bottom:2px solid var(--gold)}
+  .top .wrap{display:flex;align-items:center;justify-content:space-between;height:66px;gap:1rem}
+  .brand{display:flex;align-items:center;gap:.7rem;text-decoration:none}
+  .brand img{width:42px;height:42px}
+  .brand b{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;letter-spacing:.03em;line-height:1}
+  .brand small{display:block;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-light);font-weight:600}
+  .top nav{display:flex;align-items:center;gap:1.3rem;font-weight:600;font-size:.92rem}
+  .top nav .links{display:flex;gap:1.3rem}
+  .top nav a{text-decoration:none;opacity:.88}.top nav a:hover{opacity:1}
+  .btn{display:inline-block;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.07em;border-radius:4px;transition:transform .15s,background .15s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-gold{background:var(--gold);color:var(--green-dark);padding:.55rem 1.1rem}
+  .btn-gold:hover{background:var(--gold-light)}
+  @media (max-width:760px){.top nav .links{display:none}}
+
+  .hero{background:linear-gradient(160deg,var(--green-mid),var(--green-dark));color:#fff;padding:64px 0 56px}
+  .eyebrow{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-light);font-size:.95rem}
+  .hero h1{font-family:'Barlow Condensed',sans-serif;font-weight:900;text-transform:uppercase;line-height:.92;font-size:clamp(2.8rem,8vw,5.4rem);margin:.5rem 0 1rem}
+  .hero h1 span{color:var(--gold)}
+  .hero p{font-size:1.15rem;max-width:40rem;opacity:.9}
+  .jump{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.8rem}
+  .jump a{text-decoration:none;border:1.5px solid rgba(255,255,255,.35);border-radius:999px;padding:.4rem .95rem;font-weight:600;font-size:.92rem}
+  .jump a:hover{border-color:var(--gold);color:var(--gold-light)}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;padding:48px 0 24px}
+  @media (max-width:820px){.grid{grid-template-columns:1fr}}
+  .card{--c:var(--navy);background:#fff;border-radius:12px;border:1px solid rgba(0,0,0,.08);border-top:6px solid var(--c);padding:1.8rem 1.7rem;display:flex;flex-direction:column;scroll-margin-top:90px;box-shadow:0 6px 22px rgba(13,43,31,.06)}
+  .card.c2{--c:var(--amber)}.card.c3{--c:var(--forest)}.card.c4{--c:var(--brick)}
+  .card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem}
+  .num{font-family:'Barlow Condensed',sans-serif;font-weight:800;letter-spacing:.12em;color:var(--c)}
+  .badge{font-family:'Barlow Condensed',sans-serif;font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:.8rem;color:var(--c);background:color-mix(in srgb,var(--c) 13%,#fff);padding:.2rem .7rem;border-radius:999px}
+  .card h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;text-transform:uppercase;font-size:2.1rem;line-height:1;color:var(--c)}
+  .sub{color:var(--muted);margin:.35rem 0 1rem;padding-bottom:1rem;border-bottom:1px solid #e4e8e4}
+  .card dl{display:grid;gap:.6rem}
+  .card dt{font-weight:700;display:inline}
+  .card dd{display:inline}
+  .card dl div{line-height:1.5}
+  .card .act{margin-top:auto;padding-top:1.4rem;display:flex;flex-wrap:wrap;gap:.6rem}
+  .card .act a{text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.07em;padding:.6rem 1.1rem;border-radius:4px;background:var(--c);color:#fff}
+  .card .act a.ghost{background:none;color:var(--c);border:1.5px solid var(--c)}
+  .card .act a:hover{filter:brightness(1.1)}
+
+  .cta{background:var(--green-dark);color:#fff;border-radius:14px;margin:24px 0 64px;padding:2.4rem 2rem;display:grid;grid-template-columns:1.3fr 1fr;gap:1.6rem;align-items:center}
+  @media (max-width:820px){.cta{grid-template-columns:1fr}}
+  .cta h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;text-transform:uppercase;font-size:2.4rem;line-height:1}
+  .cta h2 span{color:var(--gold)}
+  .cta p{opacity:.88;margin-top:.6rem}
+  .cta .who{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.3rem}
+  .cta .contact{display:flex;flex-direction:column;gap:.7rem}
+  .cta .contact a.mail{color:var(--gold-light)}
+  .cta .btn-gold{padding:.85rem 1.3rem;font-size:1.1rem;text-align:center}
+
+  footer{background:var(--green-dark);border-top:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.7);font-size:.9rem;padding:1.6rem 0}
+  footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.8rem}
+  footer a{color:#fff}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="GCoYS home">
+      <img src="/img/gcys-logo.png" alt="" width="42" height="42">
+      <span><b>GCoYS</b><small>Georgia Council of Youth Sports</small></span>
+    </a>
+    <nav aria-label="Main">
+      <span class="links">
+        <a href="/">Home</a>
+        <a href="/#about">About Us</a>
+        <a href="https://tcffl.gcoys.org/">TCFFL</a>
+        <a href="/#involved">Get Involved</a>
+      </span>
+      <a class="btn btn-gold" href="/#contact">Contact Us</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow">Georgia Council of Youth Sports &middot; Program Overview</div>
+      <h1>Four Programs. <span>One Mission.</span></h1>
+      <p>Sports, mentorship and community support for South Metro Atlanta youth and families.</p>
+      <div class="jump" aria-label="Jump to a program">
+        <a href="#collaborative">GCoYS Collaborative</a>
+        <a href="#tcffl">TCFFL</a>
+        <a href="#repath">RePath Program</a>
+        <a href="#harvest">Harvest in the Park</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="grid">
+      <article class="card c1" id="collaborative">
+        <div class="card-top"><span class="num">01</span><span class="badge">Active</span></div>
+        <h2>GCoYS Collaborative</h2>
+        <p class="sub">South Metro Atlanta Youth Sports &amp; Development Collaborative</p>
+        <dl>
+          <div><dt>What:</dt> <dd>A GCoYS-led coalition uniting youth sports and development partners</dd></div>
+          <div><dt>Partners:</dt> <dd>City of Hapeville Parks &amp; Recreation, Boys &amp; Girls Clubs (BGMA), Riverdale Middle School, 100 Black Men, DTLR</dd></div>
+          <div><dt>Serves:</dt> <dd>Youth and families across South Metro Atlanta</dd></div>
+        </dl>
+        <div class="act"><a href="/#contact">Become a partner</a></div>
+      </article>
+
+      <article class="card c2" id="tcffl">
+        <div class="card-top"><span class="num">02</span><span class="badge">Active</span></div>
+        <h2>TCFFL</h2>
+        <p class="sub">Girls&rsquo; Flag Football Feeder Program</p>
+        <dl>
+          <div><dt>Ages:</dt> <dd>6U&ndash;14U divisions</dd></div>
+          <div><dt>Where:</dt> <dd>Fayetteville &amp; surrounding South Metro Atlanta</dd></div>
+          <div><dt>Partners:</dt> <dd>City of Hapeville Parks &amp; Recreation &middot; NFL FLAG / RCX</dd></div>
+          <div><dt>Goal:</dt> <dd>The most impactful 6U&ndash;14U feeder system in the Southeast</dd></div>
+        </dl>
+        <div class="act"><a href="https://tcffl.gcoys.org/register/">Register now</a><a class="ghost" href="https://tcffl.gcoys.org/">Learn more</a></div>
+      </article>
+
+      <article class="card c3" id="repath">
+        <div class="card-top"><span class="num">03</span><span class="badge">Pilot Cohort</span></div>
+        <h2>GCOYS RePath Program</h2>
+        <p class="sub">Mentorship &amp; skills for first-time youth offenders</p>
+        <dl>
+          <div><dt>Ages:</dt> <dd>13&ndash;17 &middot; 12-week curriculum</dd></div>
+          <div><dt>When:</dt> <dd>Saturdays, 8 AM&ndash;12 PM &middot; breakfast &amp; lunch provided</dd></div>
+          <div><dt>Includes:</dt> <dd>Mentorship, skill-building, weekly guest speakers</dd></div>
+          <div><dt>Now:</dt> <dd>Pilot Cohort of 25 &middot; court &amp; school referrals</dd></div>
+        </dl>
+        <div class="act"><a href="mailto:msmoak@gcoys.org?subject=RePath%20Program%20referral">Make a referral</a></div>
+      </article>
+
+      <article class="card c4" id="harvest">
+        <div class="card-top"><span class="num">04</span><span class="badge">Launching</span></div>
+        <h2>Harvest in the Park</h2>
+        <p class="sub">Food Security Initiative</p>
+        <dl>
+          <div><dt>What:</dt> <dd>Youth meals &amp; snacks after GCOYS activities, plus family food boxes &amp; produce</dd></div>
+          <div><dt>How:</dt> <dd>Recurring drive-through &amp; walk-up distributions at parks &amp; community sites</dd></div>
+          <div><dt>Plus:</dt> <dd>Nutrition info, resource referrals &amp; youth volunteer opportunities</dd></div>
+          <div><dt>Serves:</dt> <dd>Youth, working families, seniors, veterans &amp; residents with limited grocery access</dd></div>
+          <div><dt>Seeking:</dt> <dd>Food partners, meal sponsors, a distribution site &amp; start-up funding</dd></div>
+        </dl>
+        <div class="act"><a href="mailto:msmoak@gcoys.org?subject=Harvest%20in%20the%20Park%20support">Sponsor or partner</a><a class="ghost" href="/#involved">Volunteer</a></div>
+      </article>
+    </div>
+
+    <section class="cta" aria-labelledby="cta-title">
+      <div>
+        <h2 id="cta-title">Partner &middot; Sponsor &middot; <span>Volunteer</span></h2>
+        <p>Every program grows with community support. Reach out to learn how your organization, business, or family can help.</p>
+      </div>
+      <div class="contact">
+        <span class="who">Michael Smoak, Founder &amp; CEO</span>
+        <a class="mail" href="mailto:msmoak@gcoys.org">msmoak@gcoys.org</a>
+        <a class="btn btn-gold" href="/#contact">Get in touch</a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; 2026 Georgia Council of Youth Sports &middot; <a href="/">gcoys.org</a></span>
+    <span><a href="mailto:info@gcoys.org">info@gcoys.org</a> &middot; <a href="tel:4044836378">404-483-6378</a></span>
+  </div>
+</footer>
+</body>
+</html>
