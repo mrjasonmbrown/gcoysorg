@@ -830,6 +830,28 @@
     .stat-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem 1rem; }
     #about, .services, .campus, .contact, section[style*="padding: 6rem 4rem"] { padding-left: 1.5rem !important; padding-right: 1.5rem !important; }
   }
+
+  /* TCFFL registration pop-up */
+  .promo{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(7,13,29,.72);opacity:0;transition:opacity .25s}
+  .promo[hidden]{display:none}
+  .promo.show{opacity:1}
+  .promo-box{position:relative;width:100%;max-width:460px;border-radius:14px;overflow:hidden;color:#fff;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.45);
+    background:radial-gradient(500px 260px at 90% -10%,rgba(126,211,33,.28),transparent 60%),linear-gradient(160deg,#142347,#0b1530 60%,#070d1d);
+    transform:translateY(12px);transition:transform .25s}
+  .promo.show .promo-box{transform:none}
+  .promo-body{padding:3rem 1.6rem 1.6rem}
+  .promo-close{position:absolute;top:.6rem;right:.6rem;width:38px;height:38px;border:0;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;font-size:1.5rem;line-height:1;cursor:pointer}
+  .promo-close:hover{background:rgba(255,255,255,.22)}
+  .promo-tag{display:inline-block;background:#fff;color:#0b1530;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-style:italic;text-transform:uppercase;letter-spacing:.06em;padding:.25rem .75rem;transform:skewX(-8deg);font-size:.95rem}
+  .promo h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;text-transform:uppercase;line-height:.9;font-size:3rem;margin:.9rem 0 .6rem;color:#fff}
+  .promo h2 span{display:block;color:#7ed321;font-style:italic}
+  .promo-sub{font-family:'Barlow Condensed',sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:1.2rem}
+  .promo p{opacity:.88;margin:.6rem 0 1.3rem;font-size:1rem}
+  .promo-cta{display:block;background:#7ed321;color:#070d1d;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:1.3rem;padding:.9rem 1rem;border-radius:6px}
+  .promo-cta:hover{background:#9be842}
+  .promo-later{margin-top:.8rem;background:none;border:0;color:rgba(255,255,255,.75);font:inherit;font-size:.92rem;text-decoration:underline;cursor:pointer}
+  .promo-url{display:block;margin-top:.2rem;font-size:.85rem;opacity:.7}
+  @media (max-width:420px){.promo h2{font-size:2.5rem}}
 </style>
 </head>
 <body>
@@ -850,7 +872,7 @@
     <li><a href="#services">Services</a></li>
     <li><a href="#partners">Partners</a></li>
     <li><a href="#involved">Get Involved</a></li>
-    <li><a href="/tcffl-registration/">Register</a></li>
+    <li><a href="https://tcffl.gcoys.org/">TCFFL</a></li>
     <li><a href="#contact" class="nav-cta">Contact Us</a></li>
   </ul>
   <!-- Hamburger (mobile only) -->
@@ -869,7 +891,7 @@
   <a href="#services"  onclick="closeMobileMenu()">Services</a>
   <a href="#partners"  onclick="closeMobileMenu()">Partners</a>
   <a href="#involved"  onclick="closeMobileMenu()">Get Involved</a>
-  <a href="/tcffl-registration/" onclick="closeMobileMenu()">Register</a>
+  <a href="https://tcffl.gcoys.org/" onclick="closeMobileMenu()">TCFFL</a>
   <a href="#impact"    onclick="closeMobileMenu()">Impact</a>
   <a href="#contact"   onclick="closeMobileMenu()" class="mob-cta">Contact Us</a>
 </div>
@@ -887,7 +909,7 @@
     because every young person deserves a second chance to build a better tomorrow.
   </p>
   <div class="hero-actions">
-    <a href="/tcffl-registration/" class="btn-gold">Register for TCFFL</a>
+    <a href="https://tcffl.gcoys.org/register/" class="btn-gold">Register for TCFFL</a>
     <a href="#involved" class="btn-outline-white">Get Involved</a>
     <a href="#programs" class="btn-outline-white">Our Programs</a>
   </div>
@@ -1546,6 +1568,58 @@
     form.style.display = 'block';
     success.style.display = 'none';
   }
+</script>
+
+<!-- TCFFL REGISTRATION POP-UP (stops showing automatically after the season ends) -->
+<div class="promo" id="tcffl-promo" role="dialog" aria-modal="true" aria-labelledby="tcffl-promo-title" hidden>
+  <div class="promo-box">
+    <button type="button" class="promo-close" data-promo-close aria-label="Close">&times;</button>
+    <div class="promo-body">
+      <span class="promo-tag">The Council Flag Football League</span>
+      <h2 id="tcffl-promo-title">Registration <span>Now Open</span></h2>
+      <div class="promo-sub">Girls Only &nbsp;|&nbsp; 6U &ndash; 14U</div>
+      <p>Fall 2026 season at Hapeville Parks &amp; Recreation. Saturday game days through December 5.</p>
+      <a class="promo-cta" href="https://tcffl.gcoys.org/">Visit TCFFL &amp; Register</a>
+      <span class="promo-url">tcffl.gcoys.org</span>
+      <button type="button" class="promo-later" data-promo-close>Continue to gcoys.org</button>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var promo = document.getElementById('tcffl-promo');
+  if (!promo) return;
+  var KEY = 'tcfflPromoSeen';
+  var END = new Date('2026-12-06T00:00:00-05:00');
+  if (Date.now() >= END.getTime()) return;
+  try { if (sessionStorage.getItem(KEY)) return; } catch (e) {}
+  var lastFocus = null;
+  function open() {
+    lastFocus = document.activeElement;
+    promo.hidden = false;
+    requestAnimationFrame(function () { promo.classList.add('show'); });
+    promo.querySelector('.promo-cta').focus();
+    document.addEventListener('keydown', onKey);
+  }
+  function close() {
+    promo.classList.remove('show');
+    setTimeout(function () { promo.hidden = true; }, 250);
+    document.removeEventListener('keydown', onKey);
+    try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  function onKey(e) {
+    if (e.key === 'Escape') { close(); return; }
+    if (e.key === 'Tab') {
+      var f = promo.querySelectorAll('a,button'); var a = f[0], z = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); }
+      else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
+    }
+  }
+  promo.addEventListener('click', function (e) { if (e.target === promo || e.target.hasAttribute('data-promo-close')) close(); });
+  promo.querySelector('.promo-cta').addEventListener('click', function () { try { sessionStorage.setItem(KEY, '1'); } catch (e) {} });
+  setTimeout(open, 800);
+})();
 </script>
 </body>
 </html>
