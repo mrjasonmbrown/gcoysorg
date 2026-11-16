@@ -141,6 +141,34 @@
   .ig-follow:hover{border-color:var(--lime);background:rgba(126,211,33,.12)}
   .ig-follow svg{width:24px;height:24px;color:var(--lime)}
   .ig-follow b{color:var(--lime)}
+  /* Queens in Cleats */
+  .qic{--red:#e3262f;background:radial-gradient(700px 400px at 85% 0%,rgba(227,38,47,.35),transparent 60%),linear-gradient(160deg,#1a0607,#0b0b0d 60%);color:#fff;padding:64px 0;scroll-margin-top:64px}
+  .s8-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:2.4rem;align-items:center}
+  @media (max-width:860px){.s8-grid{grid-template-columns:1fr}}
+  .s8-pre{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-style:italic;text-transform:uppercase;letter-spacing:.08em;opacity:.85}
+  .s8-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;text-transform:uppercase;font-size:clamp(4rem,13vw,8rem);line-height:.85;margin:.2rem 0 .3rem;color:#fff}
+  .s8-title span{color:var(--red)}
+  .s8-sub{font-family:'Barlow Condensed',sans-serif;font-weight:900;text-transform:uppercase;font-size:clamp(1.5rem,4vw,2.2rem);line-height:1}
+  .s8-tag{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;text-transform:uppercase;font-size:1.6rem;color:var(--red);margin:.4rem 0 .9rem}
+  .s8-chips{list-style:none;display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.4rem}
+  .s8-chips li{border:2px solid var(--red);border-radius:4px;padding:.25rem .8rem;font-family:'Barlow Condensed',sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+  .s8-when{display:grid;grid-template-columns:repeat(3,auto);gap:1rem 1.8rem;justify-content:start;border-top:1px solid rgba(255,255,255,.15);padding-top:1.2rem}
+  @media (max-width:620px){.s8-when{grid-template-columns:1fr}}
+  .s8-when small{display:block;text-transform:uppercase;letter-spacing:.14em;font-size:.72rem;opacity:.7;font-weight:600}
+  .s8-when b{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.45rem;line-height:1.1}
+  .s8-when span{font-size:.88rem;opacity:.75}
+  .s8-side{display:grid;gap:1rem}
+  .s8-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-left:5px solid var(--red);border-radius:10px;padding:1.2rem 1.3rem}
+  .s8-card h3{font-family:'Barlow Condensed',sans-serif;font-weight:900;text-transform:uppercase;font-size:1.4rem;line-height:1.05;display:flex;align-items:center;gap:.5rem}
+  .s8-card h3 svg{width:22px;height:22px;color:var(--red);flex:none}
+  .s8-card p{opacity:.85;margin-top:.4rem;font-size:.97rem}
+  .s8-card.winter{border-left-color:#7fc8ff}
+  .s8-card.winter h3 svg{color:#7fc8ff}
+  .s8-follow{font-size:.92rem;opacity:.85}
+  .s8-follow a{color:#fff;font-weight:600}
+  .s8-crown{width:56px;height:40px;color:var(--red);display:block;margin-bottom:.2rem}
+  .s8-title .in{font-size:.42em;vertical-align:middle;color:#fff;border:3px solid var(--red);border-radius:999px;padding:0 .35em;margin:0 .12em;font-style:normal}
+  .s8-card a.reg{display:inline-block;margin-top:.7rem;background:var(--lime);color:var(--ink);text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:.5rem .9rem;border-radius:6px}
 </style>
 </head>
 <body>
@@ -156,6 +184,7 @@
       <span class="links">
         <a href="#about">About</a>
         <a href="#season">Season</a>
+        <a href="#queens-in-cleats">Queens in Cleats</a>
         <a href="#location">Location</a>
         <a href="https://gcoys.org">GCoYS</a>
       </span>
@@ -181,7 +210,7 @@
           <a class="btn btn-lime btn-big" href="/register/">Register Online Today
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
-          <a class="btn btn-ghost" href="#season">Season Details</a>
+          <a class="btn btn-ghost" href="#queens-in-cleats">Queens in Cleats &middot; Dec 5</a>
         </div>
       </div>
       <aside class="hero-card" aria-label="Registration fee">
@@ -197,6 +226,36 @@
       <div class="date"><small>Registration</small><b>Open Now</b><span>Register online in a few minutes</span></div>
       <div class="date"><small>Registration closes</small><b>Jan 9, 2027</b><span>Don&rsquo;t miss the deadline</span></div>
       <div class="date"><small>Season</small><b>Winter 2026&ndash;27</b><span>Games every Saturday &middot; schedule coming soon</span></div>
+    </div>
+  </section>
+
+
+  <section class="qic" id="queens-in-cleats" aria-labelledby="qic-title">
+    <div class="wrap s8-grid">
+      <div>
+        <svg class="s8-crown" viewBox="0 0 64 44" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" aria-hidden="true"><path d="M6 36 3 10l15 12L32 4l14 18 15-12-3 26z"/><path d="M8 41h48"/></svg>
+        <div class="s8-pre">DTLR presents</div>
+        <h2 id="qic-title" class="s8-title" style="font-size:clamp(3.2rem,10vw,6.4rem)">Queens <span class="in">in</span> <span>Cleats</span></h2>
+        <div class="s8-sub">Field Access</div>
+        <p class="s8-tag" style="font-size:1.25rem;color:#fff;font-style:normal;text-transform:none;font-family:'Barlow',sans-serif;font-weight:500;opacity:.88">A day of girls&rsquo; flag football in Hapeville with TCFFL, GCoYS, Hapeville Recreation, NFL FLAG and DTLR.</p>
+        <div class="s8-when">
+          <div><small>Date</small><b>Saturday, December 5, 2026</b></div>
+          <div><small>Time</small><b style="white-space:nowrap">10 AM &ndash; 5 PM</b></div>
+          <div><small>Where</small><b>Hapeville Park &amp; Rec</b><span>Flag football field</span></div>
+        </div>
+      </div>
+      <div class="s8-side">
+        <div class="s8-card">
+          <h3>Parents Awareness Mini Clinic</h3>
+          <p>Part of the Queens in Cleats day on December 5.</p>
+        </div>
+        <div class="s8-card winter">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 2v20M4.9 4.9l14.2 14.2M2 12h20M4.9 19.1 19.1 4.9M9 3.5 12 6l3-2.5M9 20.5 12 18l3 2.5M3.5 9 6 12l-2.5 3M20.5 9 18 12l2.5 3"/></svg>TCFFL Winter League</h3>
+          <p><b>6U&ndash;14U</b> &middot; Registration is open now and closes <b>January 9, 2027</b>.</p>
+          <a class="reg" href="/register/">Register now</a>
+        </div>
+        <p class="s8-follow">More info: <a href="tel:4044836378">404-483-6378</a> &middot; <a href="mailto:info@gcoys.org">info@gcoys.org</a><br>Follow: <a href="https://www.instagram.com/ga_coys/" target="_blank" rel="noopener">@ga_coys</a> &middot; <a href="https://www.instagram.com/tcffl_ga/" target="_blank" rel="noopener">@tcffl_ga</a> &middot; <a href="https://www.instagram.com/dtlrsports/" target="_blank" rel="noopener">@dtlrsports</a></p>
+      </div>
     </div>
   </section>
 
