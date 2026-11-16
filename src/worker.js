@@ -18,7 +18,7 @@
 const FEE_CENTS = 12500; // $125. Set here on the server; the browser is never trusted for price.
 const ID_PREFIX = 'TCFFL-2026-';
 const ID_ALPHABET = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; // no look-alike characters
-const ITEM_NAME = 'TCFFL Player Registration - Fall 2026';
+const ITEM_NAME = 'TCFFL Player Registration - Winter 2026-27';
 const DEFAULT_ADMIN_EMAIL = 'info@gcoys.org';
 
 // OWNER ITEM: replace with the version label of the approved waiver / medical authorization /
