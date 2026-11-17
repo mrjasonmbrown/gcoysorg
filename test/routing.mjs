@@ -17,6 +17,10 @@ await check('https://tcffl.gcoys.org/register/?returned=1&ref=TCFFL-2026-ABC', '
 await check('https://tcffl.gcoys.org/img/gcys-logo.png', 'asset:/img/gcys-logo.png');
 await check('https://tcffl.gcoys.org/tcffl-registration/?returned=1', '301 /register/?returned=1');
 await check('https://tcffl.gcoys.org/tcffl/', '301 /');
+await check('https://tcffl.gcoys.org/code-of-conduct/', 'asset:/tcffl/code-of-conduct/');
+await check('https://tcffl.gcoys.org/code-of-conduct', '301 /code-of-conduct/');
+await check('https://tcffl.gcoys.org/not-a-page/', 'asset:/not-a-page/');
+await check('https://gcoys.org/tcffl/code-of-conduct/', '301 https://tcffl.gcoys.org/code-of-conduct/');
 await check('https://gcoys.org/', 'asset:/');
 await check('https://gcoys.org/tcffl-registration/', '301 https://tcffl.gcoys.org/register/');
 await check('https://www.gcoys.org/tcffl-registration/?returned=1&ref=X', '301 https://tcffl.gcoys.org/register/?returned=1&ref=X');
