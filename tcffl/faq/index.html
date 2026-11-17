@@ -248,6 +248,10 @@
   .faq-cta{background:var(--green-dark);color:#fff;border-radius:14px;padding:1.6rem 1.8rem;margin:2.4rem 0 56px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem}
   .faq-cta h2{color:#fff;font-size:1.8rem;margin:0}
   .faq-cta a:not(.btn){color:#fff}
+  details.q .dates-list{list-style:none;display:grid;gap:.45rem;margin-bottom:.8rem}
+  details.q .dates-list li{display:flex;gap:1rem;align-items:baseline;border-bottom:1px dashed #e3e9e4;padding-bottom:.45rem}
+  details.q .dates-list li:last-child{border-bottom:0}
+  details.q .dates-list b{min-width:7.5rem;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.15rem;color:var(--green);text-transform:uppercase}
 </style>
 </head>
 <body>
@@ -307,9 +311,16 @@
         <div class="faq-group" id="season">
           <div class="kicker">Season &amp; games</div>
           <div class="faq-list">
-          <details class="q"><summary>When is the season?<span class="pm" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="a"><p>TCFFL&rsquo;s Winter 2026&ndash;27 season has games every Saturday. Practice times, field hours and the full game schedule will be announced once they are confirmed.</p></div></details>
+          <details class="q" id="key-dates"><summary>What are the key dates for the winter season?<span class="pm" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="a"><ul class="dates-list">
+<li><b>Now</b><span>Registration is open</span></li>
+<li><b>Jan 9, 2027</b><span>Registration closes</span></li>
+<li><b>Jan 16, 2027</b><span>Player evaluations</span></li>
+<li><b>Jan 23, 2027</b><span>Rosters finalized</span></li>
+<li><b>Jan 30, 2027</b><span>Season starts, with games every Saturday</span></li>
+</ul><p>Practice times and field hours will be announced once they are confirmed.</p></div></details>
+          <details class="q"><summary>When is the season?<span class="pm" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="a"><p>TCFFL&rsquo;s Winter 2026&ndash;27 season starts <strong>Saturday, January 30, 2027</strong>, with games every Saturday. Practice times and field hours will be announced once they are confirmed. See <a href="#key-dates">the key dates</a>.</p></div></details>
           <details class="q"><summary>Where are games played?<span class="pm" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="a"><p>Games and practices are at <strong>Hapeville Parks &amp; Recreation</strong>, 3444 North Fulton Avenue, Hapeville, GA 30354. <a href="https://www.google.com/maps/search/?api=1&amp;query=3444+North+Fulton+Avenue+Hapeville+GA+30354" target="_blank" rel="noopener">Get directions</a>.</p></div></details>
-          <details class="q"><summary>When will I find out my player&rsquo;s team and schedule?<span class="pm" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="a"><p>Team and schedule details will be shared with registered families once rosters and the season schedule are confirmed. Follow <a href="https://www.instagram.com/tcffl_ga/" target="_blank" rel="noopener">@tcffl_ga</a> on Instagram for updates.</p></div></details>
+          <details class="q"><summary>When will I find out my player&rsquo;s team and schedule?<span class="pm" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="a"><p>Player evaluations are on <strong>January 16, 2027</strong>, and rosters are finalized on <strong>January 23, 2027</strong>. Team details will be shared with registered families after rosters are set, ahead of the first games on January 30. Follow <a href="https://www.instagram.com/tcffl_ga/" target="_blank" rel="noopener">@tcffl_ga</a> on Instagram for updates.</p></div></details>
           <details class="q"><summary>What is Queens in Cleats?<span class="pm" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="a"><p>Queens in Cleats &ndash; Field Access is a girls&rsquo; flag football day presented by DTLR on <strong>Saturday, December 5, 2026, 10 AM&ndash;5 PM</strong> at the Hapeville Park &amp; Rec flag football field. It includes a Parents Awareness Mini Clinic. <a href="/#queens-in-cleats">See the details and flyer</a>.</p></div></details>
           </div>
         </div>
@@ -337,7 +348,8 @@
   b.addEventListener('click',function(){ var open=!qs.every(function(d){return d.open}); qs.forEach(function(d){d.open=open}); sync(); });
   qs.forEach(function(d){ d.addEventListener('toggle',sync); });
   // open a question linked by #id
-  if(location.hash){ var t=document.querySelector(location.hash); if(t && t.tagName==='DETAILS') t.open=true; }
+  function openHash(){ if(!location.hash) return; var t=document.querySelector(location.hash); if(t && t.tagName==='DETAILS'){ t.open=true; sync(); } }
+  openHash(); window.addEventListener('hashchange', openHash);
 })();
 </script>
 
