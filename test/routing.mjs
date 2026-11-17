@@ -22,6 +22,7 @@ await check('https://tcffl.gcoys.org/code-of-conduct', '301 /code-of-conduct/');
 await check('https://tcffl.gcoys.org/coaches-office/', 'asset:/tcffl/coaches-office/');
 await check('https://tcffl.gcoys.org/faq', '301 /faq/');
 await check('https://tcffl.gcoys.org/faq/', 'asset:/tcffl/faq/');
+await check('https://tcffl.gcoys.org/contact/?topic=coaching', 'asset:/tcffl/contact/?topic=coaching');
 await check('https://tcffl.gcoys.org/not-a-page/', 'asset:/not-a-page/');
 await check('https://gcoys.org/tcffl/code-of-conduct/', '301 https://tcffl.gcoys.org/code-of-conduct/');
 await check('https://gcoys.org/', 'asset:/');
