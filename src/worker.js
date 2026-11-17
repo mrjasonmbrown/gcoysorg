@@ -44,7 +44,7 @@ const TCFFL_HOST = 'tcffl.gcoys.org';
 const MAIN_HOSTS = ['gcoys.org', 'www.gcoys.org'];
 const TCFFL_REGISTER_URL = `https://${TCFFL_HOST}/register/`;
 // Extra pages on tcffl.gcoys.org, each served from tcffl/<name>/index.html
-const TCFFL_PAGES = ['code-of-conduct', 'coaches-office', 'faq'];
+const TCFFL_PAGES = ['code-of-conduct', 'coaches-office', 'faq', 'contact'];
 
 const encoder = new TextEncoder();
 
