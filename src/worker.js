@@ -43,6 +43,8 @@ const POSITIONS = ['Quarterback', 'Wide Receiver', 'Running Back', 'Center', 'Li
 const TCFFL_HOST = 'tcffl.gcoys.org';
 const MAIN_HOSTS = ['gcoys.org', 'www.gcoys.org'];
 const TCFFL_REGISTER_URL = `https://${TCFFL_HOST}/register/`;
+// Extra pages on tcffl.gcoys.org, each served from tcffl/<name>/index.html
+const TCFFL_PAGES = ['code-of-conduct'];
 
 const encoder = new TextEncoder();
 
@@ -79,16 +81,21 @@ function routeSite(request, env, url) {
 
   if (host === TCFFL_HOST) {
     if (isOldRegPath) return redirect(`/register/${url.search}`);
-    if (isLandingFolder) return redirect('/');
+    if (isLandingFolder) return redirect(path.replace(/^\/tcffl/, '') || '/');
     if (path === '/' || path === '/index.html') return serveAsset(request, env, url, '/tcffl/');
     if (path === '/register' || path === '/register/') return serveAsset(request, env, url, '/tcffl-registration/');
+    const page = path.match(/^\/([a-z0-9-]+)\/?$/);
+    if (page && TCFFL_PAGES.includes(page[1])) {
+      if (!path.endsWith('/')) return redirect(`/${page[1]}/${url.search}`);
+      return serveAsset(request, env, url, `/tcffl/${page[1]}/`);
+    }
     return env.ASSETS.fetch(request);
   }
 
   if (MAIN_HOSTS.includes(host)) {
     // Old links (and Square return links made before the move) keep working.
     if (isOldRegPath) return redirect(`${TCFFL_REGISTER_URL}${url.search}`);
-    if (isLandingFolder) return redirect(`https://${TCFFL_HOST}/`);
+    if (isLandingFolder) return redirect(`https://${TCFFL_HOST}${path.replace(/^\/tcffl/, '') || '/'}`);
   }
 
   return env.ASSETS.fetch(request);
