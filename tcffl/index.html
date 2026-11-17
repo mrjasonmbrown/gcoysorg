@@ -169,6 +169,13 @@
   .s8-crown{width:56px;height:40px;color:var(--red);display:block;margin-bottom:.2rem}
   .s8-title .in{font-size:.42em;vertical-align:middle;color:#fff;border:3px solid var(--red);border-radius:999px;padding:0 .35em;margin:0 .12em;font-style:normal}
   .s8-card a.reg{display:inline-block;margin-top:.7rem;background:var(--lime);color:var(--ink);text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:.5rem .9rem;border-radius:6px}
+  .partners-strip{background:#fff;margin:-1.8rem 0 1.8rem;padding:1.4rem 0;border-top:4px solid var(--lime)}
+  .partners-strip .wrap{display:flex;align-items:center;justify-content:center;gap:1.4rem 2.6rem;flex-wrap:wrap}
+  .p-label{font-family:'Barlow Condensed',sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:var(--navy);font-size:.95rem}
+  .p-logos{display:flex;align-items:center;gap:2.4rem;flex-wrap:wrap;justify-content:center}
+  .p-logos a{display:block;opacity:1;transition:transform .15s}
+  .p-logos a:hover{transform:translateY(-2px)}
+  .p-logos img{display:block;height:55px;width:auto}
 </style>
 </head>
 <body>
@@ -346,6 +353,15 @@
 </main>
 
 <footer>
+  <div class="partners-strip" aria-label="League partners">
+    <div class="wrap">
+      <span class="p-label">League partners</span>
+      <div class="p-logos">
+        <!-- RCX_LOGO -->
+        <a href="https://nflflag.com/" target="_blank" rel="noopener" aria-label="NFL FLAG"><img src="/img/partners/nfl-flag.png" alt="NFL FLAG" width="172" height="55" loading="lazy"></a>
+      </div>
+    </div>
+  </div>
   <div class="wrap">
     <span>&copy; 2026 The Council Flag Football League &middot; a program of the <a href="https://gcoys.org">Georgia Council of Youth Sports</a></span>
     <a class="ig ig-foot" href="https://www.instagram.com/tcffl_ga/" target="_blank" rel="noopener" aria-label="TCFFL on Instagram (@tcffl_ga)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg><span>@tcffl_ga</span></a>
