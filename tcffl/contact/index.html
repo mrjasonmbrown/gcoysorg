@@ -253,7 +253,7 @@
   details.q .dates-list li:last-child{border-bottom:0}
   details.q .dates-list b{min-width:7.5rem;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.15rem;color:var(--green);text-transform:uppercase}
   /* Contact */
-  .contact-grid{display:grid;grid-template-columns:1.4fr .8fr;gap:1.4rem;align-items:start;margin-bottom:56px}
+  .contact-grid{display:grid;grid-template-columns:1.4fr .8fr;gap:1.4rem;align-items:start;margin-bottom:1.6rem}
   @media (max-width:880px){.contact-grid{grid-template-columns:1fr}}
   .cform{background:#fff;border-radius:14px;padding:1.8rem;box-shadow:0 8px 24px rgba(11,21,48,.06);border-top:5px solid var(--lime)}
   .cform h2{font-size:clamp(1.6rem,3.4vw,2.1rem);margin:0 0 .3rem}
@@ -288,6 +288,15 @@
   .side p{opacity:.9;font-size:.97rem}
   .side a{color:inherit;font-weight:600}
   .side .card.light a{color:var(--green)}
+  .map-wrap{margin-bottom:56px}
+  .map-card{display:grid;grid-template-columns:.75fr 1.25fr;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 8px 24px rgba(11,21,48,.06);border-top:5px solid var(--lime)}
+  @media (max-width:880px){.map-card{grid-template-columns:1fr}}
+  .map-info{padding:1.6rem 1.7rem;display:flex;flex-direction:column;justify-content:center;gap:.4rem}
+  .map-info h2{font-size:clamp(1.5rem,3vw,2rem);margin:0}
+  .map-info .addr{color:var(--muted);font-size:1.05rem;margin:.2rem 0 .8rem}
+  .map-info .btn{align-self:flex-start}
+  .map-frame{display:block;width:100%;height:100%;min-height:360px;border:0;background:#e9eee9}
+  @media (max-width:880px){.map-frame{min-height:300px}}
 </style>
 </head>
 <body>
@@ -368,14 +377,21 @@
           <p>Dates, fees, scholarships and more are on our <a href="/faq/">FAQ page</a>. Coaches can find training and resources in the <a href="/coaches-office/">Coaches Office</a>.</p>
         </div>
         <div class="card light">
-          <h3>Games &amp; practices</h3>
-          <p>Hapeville Parks &amp; Recreation<br>3444 North Fulton Avenue<br>Hapeville, GA 30354</p>
-        </div>
-        <div class="card light">
           <h3>Follow us</h3>
           <p><a href="https://www.instagram.com/tcffl_ga/" target="_blank" rel="noopener">@tcffl_ga</a> &middot; <a href="https://www.instagram.com/ga_coys/" target="_blank" rel="noopener">@ga_coys</a></p>
         </div>
       </aside>
+    </div>
+    <div class="wrap map-wrap" id="map">
+      <div class="map-card">
+        <div class="map-info">
+          <div class="kicker">Games &amp; practices</div>
+          <h2>Hapeville Parks &amp; Recreation</h2>
+          <p class="addr">3444 North Fulton Avenue<br>Hapeville, GA 30354</p>
+          <a class="btn btn-lime" href="https://www.google.com/maps/dir/?api=1&amp;destination=3444+North+Fulton+Avenue+Hapeville+GA+30354" target="_blank" rel="noopener">Get Directions</a>
+        </div>
+        <iframe class="map-frame" title="Map of Hapeville Parks and Recreation, 3444 North Fulton Avenue, Hapeville, GA 30354" src="https://www.google.com/maps?q=3444+North+Fulton+Avenue,+Hapeville,+GA+30354&amp;z=15&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      </div>
     </div>
   </section>
 </main>
